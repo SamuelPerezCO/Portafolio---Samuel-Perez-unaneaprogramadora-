@@ -16,6 +16,11 @@
       <a href="mailto:{{ profile.email }}" aria-label="{{ profile.email }}">
         {% include "main/partials/icon.html" with name="mail" %}
       </a>
+      {% if whatsapp_url %}
+        <a href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          {% include "main/partials/icon.html" with name="whatsapp" %}
+        </a>
+      {% endif %}
     </div>
 
     <div class="footer__end">

@@ -8,6 +8,8 @@ No hay base de datos ni panel de administración: este archivo es la fuente de v
 There is no database or admin panel: this file is the source of truth.
 """
 
+from urllib.parse import quote
+
 LANGUAGES = ("es", "en")
 DEFAULT_LANGUAGE = "es"
 
@@ -312,8 +314,13 @@ CONTENT = {
             "label": "Contacto",
             "title": "¿Hablamos?",
             "intro": "Estoy abierto a oportunidades, proyectos y conversaciones sobre "
-                     "código. La forma más rápida de llegarme es por correo.",
+                     "código. Escríbeme por WhatsApp o por correo, lo que te quede mejor.",
             "email_cta": "Enviar correo",
+            "email_label": "Correo",
+            "whatsapp_cta": "Escribir por WhatsApp",
+            # Texto que aparece ya escrito al abrir el chat.
+            "whatsapp_message": "¡Hola Samuel! Vi tu portafolio y me gustaría hablar contigo.",
+            "phone_label": "Teléfono",
             "links_title": "También estoy en",
         },
         "footer": {
@@ -403,8 +410,13 @@ CONTENT = {
             "label": "Contact",
             "title": "Let's talk",
             "intro": "I'm open to opportunities, projects and conversations about code. "
-                     "Email is the fastest way to reach me.",
+                     "Reach me on WhatsApp or by email, whichever suits you best.",
             "email_cta": "Send an email",
+            "email_label": "Email",
+            "whatsapp_cta": "Message on WhatsApp",
+            # Text pre-filled in the chat when the link is opened.
+            "whatsapp_message": "Hi Samuel! I saw your portfolio and I'd like to talk with you.",
+            "phone_label": "Phone",
             "links_title": "Also find me on",
         },
         "footer": {
@@ -454,4 +466,31 @@ def get_context(lang: str) -> dict:
         "skills": skills,
         "projects": projects,
         "timeline": timeline,
+        "whatsapp_url": whatsapp_url(lang),
+        "phone_href": phone_href(),
     }
+
+
+def phone_href() -> str:
+    """Número listo para un enlace tel:. / Number ready for a tel: link.
+
+    "+57 316 768 7288" -> "+573167687288"
+    """
+    number = PROFILE.get("phone_number", "").strip()
+    digits = "".join(char for char in number if char.isdigit())
+    if not digits:
+        return ""
+    return f"+{digits}" if number.startswith("+") else digits
+
+
+def whatsapp_url(lang: str) -> str:
+    """Enlace de WhatsApp con el mensaje ya escrito en el idioma de la página.
+
+    WhatsApp link with the greeting pre-filled in the page's language.
+    """
+    base = PROFILE.get("whatsapp_link", "")
+    message = CONTENT.get(lang, {}).get("contact", {}).get("whatsapp_message", "")
+    if not base or not message:
+        return base
+    separator = "&" if "?" in base else "?"
+    return f"{base}{separator}text={quote(message)}"

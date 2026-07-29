@@ -8,14 +8,30 @@
       <h2 class="contact__title">{{ t.contact.title }}</h2>
       <p class="contact__intro">{{ t.contact.intro }}</p>
 
-      <a class="btn btn--primary btn--lg" href="mailto:{{ profile.email }}">
-        {% include "main/partials/icon.html" with name="mail" %}
-        {{ t.contact.email_cta }}
-      </a>
+      <div class="contact__actions">
+        <a class="btn btn--primary btn--lg" href="{{ whatsapp_url }}"
+           target="_blank" rel="noopener noreferrer">
+          {% include "main/partials/icon.html" with name="whatsapp" %}
+          {{ t.contact.whatsapp_cta }}
+        </a>
+        <a class="btn btn--ghost btn--lg" href="mailto:{{ profile.email }}">
+          {% include "main/partials/icon.html" with name="mail" %}
+          {{ t.contact.email_cta }}
+        </a>
+      </div>
 
-      <p class="contact__email">
-        <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
-      </p>
+      <dl class="contact__details">
+        <div>
+          <dt>{% include "main/partials/icon.html" with name="mail" %}{{ t.contact.email_label }}</dt>
+          <dd><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></dd>
+        </div>
+        {% if profile.phone_number %}
+          <div>
+            <dt>{% include "main/partials/icon.html" with name="phone" %}{{ t.contact.phone_label }}</dt>
+            <dd><a href="tel:{{ phone_href }}">{{ profile.phone_number }}</a></dd>
+          </div>
+        {% endif %}
+      </dl>
 
       <div class="contact__links">
         <p class="contact__links-title">{{ t.contact.links_title }}</p>
