@@ -45,6 +45,20 @@ ALLOWED_HOSTS = env_list("ALLOWED_HOSTS") or (
 
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
 
+# Vercel publica la URL del despliegue en el entorno. Se añade sola para que un
+# despliegue nuevo (o una preview) funcione sin tocar la configuración a mano.
+# Vercel exposes the deployment URL in the environment. We add it automatically so
+# a fresh deployment (or a preview) works without editing settings by hand.
+for _vercel_var in ("VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+    _host = os.environ.get(_vercel_var, "").strip()
+    if not _host:
+        continue
+    if _host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_host)
+    _origin = f"https://{_host}"
+    if _origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(_origin)
+
 if not DEBUG:
     SECURE_SSL_REDIRECT = env_bool("SECURE_SSL_REDIRECT", True)
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
