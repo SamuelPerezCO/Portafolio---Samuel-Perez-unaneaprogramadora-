@@ -24,6 +24,8 @@ PROFILE = {
     "github_user": "SamuelPerezCO",
     "linkedin": "https://www.linkedin.com/in/samuel-perez-serna",
     "linkedin_user": "samuel-perez-serna",
+    "phone_number": "+57 3167687288",
+    "whatsapp_link": "https://wa.me/573167687288"
 }
 
 SKILL_GROUPS = [
