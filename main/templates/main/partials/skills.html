@@ -1,0 +1,26 @@
+{% load static %}
+<section class="section" id="skills">
+  <div class="container">
+    <header class="section__head reveal">
+      <p class="section__label">{{ t.skills.label }}</p>
+      <h2 class="section__title">{{ t.skills.title }}</h2>
+      <p class="section__intro">{{ t.skills.intro }}</p>
+    </header>
+
+    <div class="skills__grid">
+      {% for group in skills %}
+        <article class="card skills__card reveal" style="--d:{{ forloop.counter0 }}00ms">
+          <span class="skills__icon" aria-hidden="true">
+            {% include "main/partials/icon.html" with name=group.icon %}
+          </span>
+          <h3 class="skills__title">{{ group.title }}</h3>
+          <ul class="chips">
+            {% for entry in group.entries %}
+              <li class="chip">{{ entry }}</li>
+            {% endfor %}
+          </ul>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

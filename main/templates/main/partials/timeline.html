@@ -1,0 +1,37 @@
+{% load static %}
+<section class="section" id="timeline">
+  <div class="container">
+    <header class="section__head reveal">
+      <p class="section__label">{{ t.timeline.label }}</p>
+      <h2 class="section__title">{{ t.timeline.title }}</h2>
+      <p class="section__intro">{{ t.timeline.intro }}</p>
+    </header>
+
+    <ol class="timeline">
+      {% for entry in timeline %}
+        <li class="timeline__item reveal" style="--d:{{ forloop.counter0 }}00ms">
+          <span class="timeline__marker" aria-hidden="true">
+            {% if entry.type == "work" %}
+              {% include "main/partials/icon.html" with name="briefcase" %}
+            {% else %}
+              {% include "main/partials/icon.html" with name="cap" %}
+            {% endif %}
+          </span>
+
+          <div class="timeline__body">
+            <div class="timeline__meta">
+              <span class="timeline__period">{{ entry.period }}</span>
+              <span class="timeline__type">{{ entry.type_label }}</span>
+              {% if entry.current %}
+                <span class="badge badge--pulse">{{ t.timeline.current_badge }}</span>
+              {% endif %}
+            </div>
+            <h3 class="timeline__role">{{ entry.role }}</h3>
+            <p class="timeline__org">{{ entry.org }}</p>
+            <p class="timeline__description">{{ entry.description }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

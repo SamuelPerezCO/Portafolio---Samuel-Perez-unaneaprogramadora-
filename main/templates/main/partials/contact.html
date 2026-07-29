@@ -1,0 +1,35 @@
+{% load static %}
+<section class="section section--contact" id="contact">
+  <div class="container">
+    <div class="contact reveal">
+      <div class="contact__glow" aria-hidden="true"></div>
+
+      <p class="section__label">{{ t.contact.label }}</p>
+      <h2 class="contact__title">{{ t.contact.title }}</h2>
+      <p class="contact__intro">{{ t.contact.intro }}</p>
+
+      <a class="btn btn--primary btn--lg" href="mailto:{{ profile.email }}">
+        {% include "main/partials/icon.html" with name="mail" %}
+        {{ t.contact.email_cta }}
+      </a>
+
+      <p class="contact__email">
+        <a href="mailto:{{ profile.email }}">{{ profile.email }}</a>
+      </p>
+
+      <div class="contact__links">
+        <p class="contact__links-title">{{ t.contact.links_title }}</p>
+        <div class="contact__links-row">
+          <a class="link" href="{{ profile.github }}" target="_blank" rel="noopener noreferrer">
+            {% include "main/partials/icon.html" with name="github" %}
+            {{ profile.github_user }}
+          </a>
+          <a class="link" href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer">
+            {% include "main/partials/icon.html" with name="linkedin" %}
+            {{ profile.linkedin_user }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

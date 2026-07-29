@@ -1,0 +1,32 @@
+{% load static %}
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a class="nav__logo" href="#top" aria-label="{{ profile.name }}">
+      <span class="nav__logo-mark">{{ profile.initials }}</span>
+      <span class="nav__logo-dot" aria-hidden="true"></span>
+    </a>
+
+    <nav class="nav__links" id="nav-links" aria-label="{{ t.nav.menu }}">
+      <a href="#about">{{ t.nav.about }}</a>
+      <a href="#skills">{{ t.nav.skills }}</a>
+      <a href="#projects">{{ t.nav.projects }}</a>
+      <a href="#timeline">{{ t.nav.timeline }}</a>
+      <a href="#contact">{{ t.nav.contact }}</a>
+    </nav>
+
+    <div class="nav__actions">
+      <a class="lang-toggle" href="{{ other_lang_url }}" hreflang="{{ t.other_lang }}"
+         aria-label="{% if lang == 'es' %}Ver en inglés{% else %}View in Spanish{% endif %}">
+        <span class="lang-toggle__current">{{ lang|upper }}</span>
+        <span class="lang-toggle__sep" aria-hidden="true">/</span>
+        <span class="lang-toggle__other">{{ t.other_lang_label }}</span>
+      </a>
+
+      <button class="nav__burger" id="nav-burger" type="button"
+              aria-expanded="false" aria-controls="nav-links" aria-label="{{ t.nav.menu }}">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>

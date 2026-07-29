@@ -1,0 +1,29 @@
+{% load static %}
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <span class="footer__name">{{ profile.name }}</span>
+      <span class="footer__meta">&copy; {% now "Y" %} · {{ t.footer.rights }}</span>
+    </div>
+
+    <div class="footer__links">
+      <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        {% include "main/partials/icon.html" with name="github" %}
+      </a>
+      <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        {% include "main/partials/icon.html" with name="linkedin" %}
+      </a>
+      <a href="mailto:{{ profile.email }}" aria-label="{{ profile.email }}">
+        {% include "main/partials/icon.html" with name="mail" %}
+      </a>
+    </div>
+
+    <div class="footer__end">
+      <span class="footer__built">{{ t.footer.built }}</span>
+      <a class="footer__top" href="#top">
+        {{ t.footer.back_to_top }}
+        {% include "main/partials/icon.html" with name="arrow-up" %}
+      </a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+{% load static %}
+<section class="section" id="about">
+  <div class="container">
+    <header class="section__head reveal">
+      <p class="section__label">{{ t.about.label }}</p>
+      <h2 class="section__title">{{ t.about.title }}</h2>
+    </header>
+
+    <div class="about__grid">
+      <div class="about__body reveal" style="--d:.06s">
+        {% for paragraph in t.about.paragraphs %}
+          <p>{{ paragraph }}</p>
+        {% endfor %}
+      </div>
+
+      <dl class="about__facts reveal" style="--d:.12s">
+        {% for fact in t.about.facts %}
+          <div class="about__fact">
+            <dt>{{ fact.label }}</dt>
+            <dd>{{ fact.value }}</dd>
+          </div>
+        {% endfor %}
+      </dl>
+    </div>
+  </div>
+</section>

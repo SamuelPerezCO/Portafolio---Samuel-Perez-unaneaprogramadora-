@@ -1,0 +1,63 @@
+{% load static %}
+<section class="hero" id="top">
+  <div class="container hero__inner">
+
+    <div class="hero__text">
+      <p class="hero__greeting reveal">{{ t.hero.greeting }}</p>
+
+      <h1 class="hero__name reveal" style="--d:.06s">
+        {{ t.hero.name }}<span class="accent">.</span>
+      </h1>
+
+      <p class="hero__roles reveal" style="--d:.12s" aria-label='{{ t.hero.roles|join:" · " }}'>
+        <span class="hero__roles-static" aria-hidden="true">&lt;</span>
+        <span class="hero__roles-rotator" id="role-rotator" aria-hidden="true">
+          {% for role in t.hero.roles %}
+            <span class="hero__role{% if forloop.first %} is-active{% endif %}">{{ role }}</span>
+          {% endfor %}
+        </span>
+        <span class="hero__roles-static" aria-hidden="true">/&gt;</span>
+      </p>
+
+      <p class="hero__tagline reveal" style="--d:.18s">{{ t.hero.tagline }}</p>
+
+      <div class="hero__actions reveal" style="--d:.24s">
+        <a class="btn btn--primary" href="#projects">
+          {{ t.hero.cta_primary }}
+          {% include "main/partials/icon.html" with name="arrow-right" %}
+        </a>
+        <a class="btn btn--ghost" href="#contact">{{ t.hero.cta_secondary }}</a>
+      </div>
+
+      <div class="hero__socials reveal" style="--d:.3s">
+        <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          {% include "main/partials/icon.html" with name="github" %}
+        </a>
+        <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          {% include "main/partials/icon.html" with name="linkedin" %}
+        </a>
+        <a href="mailto:{{ profile.email }}" aria-label="{{ profile.email }}">
+          {% include "main/partials/icon.html" with name="mail" %}
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__portrait reveal" style="--d:.16s">
+      <div class="portrait">
+        <div class="portrait__glow" aria-hidden="true"></div>
+        <div class="portrait__ring" aria-hidden="true"></div>
+        <img class="portrait__img"
+             src="{% static profile.photo %}"
+             alt="{{ t.hero.photo_alt }}"
+             width="440" height="440"
+             fetchpriority="high">
+      </div>
+    </div>
+
+  </div>
+
+  <a class="hero__scroll" href="#about" aria-hidden="true" tabindex="-1">
+    <span class="hero__scroll-label">{{ t.hero.scroll }}</span>
+    <span class="hero__scroll-line"></span>
+  </a>
+</section>

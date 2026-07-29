@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}404 — {{ profile.name }}{% endblock %}
+
+{% block content %}
+<section class="section section--error">
+  <div class="container error">
+    <p class="error__code">404</p>
+    <h1 class="error__title">Esta página no existe / This page doesn't exist</h1>
+    <p class="error__text">
+      El enlace que seguiste no lleva a ninguna parte.<br>
+      The link you followed doesn't lead anywhere.
+    </p>
+    <a class="btn btn--primary" href="{% url 'main:home' %}">
+      Volver al inicio / Back home
+      {% include "main/partials/icon.html" with name="arrow-right" %}
+    </a>
+  </div>
+</section>
+{% endblock %}

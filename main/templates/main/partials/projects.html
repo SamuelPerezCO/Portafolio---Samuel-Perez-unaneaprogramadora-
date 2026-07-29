@@ -1,0 +1,63 @@
+{% load static %}
+<section class="section" id="projects">
+  <div class="container">
+    <header class="section__head reveal">
+      <p class="section__label">{{ t.projects.label }}</p>
+      <h2 class="section__title">{{ t.projects.title }}</h2>
+      <p class="section__intro">{{ t.projects.intro }}</p>
+    </header>
+
+    <div class="projects__grid">
+      {% for project in projects %}
+        <article class="card project{% if project.featured %} project--featured{% endif %} reveal"
+                 style="--d:{{ forloop.counter0 }}00ms">
+
+          <div class="project__head">
+            <span class="project__year">{{ project.year }}</span>
+            {% if project.featured %}
+              <span class="badge">{{ t.projects.featured_badge }}</span>
+            {% endif %}
+          </div>
+
+          <h3 class="project__title">{{ project.title }}</h3>
+          <p class="project__summary">{{ project.summary }}</p>
+
+          {% if project.highlights %}
+            <ul class="project__highlights">
+              {% for highlight in project.highlights %}
+                <li>{{ highlight }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+
+          <ul class="chips chips--sm">
+            {% for tag in project.tags %}
+              <li class="chip">{{ tag }}</li>
+            {% endfor %}
+          </ul>
+
+          <div class="project__links">
+            <a class="link" href="{{ project.repo }}" target="_blank" rel="noopener noreferrer">
+              {% include "main/partials/icon.html" with name="github" %}
+              {{ t.projects.view_code }}
+            </a>
+            {% if project.demo %}
+              <a class="link" href="{{ project.demo }}" target="_blank" rel="noopener noreferrer">
+                {% include "main/partials/icon.html" with name="external" %}
+                {{ t.projects.view_demo }}
+              </a>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    <div class="projects__more reveal">
+      <a class="btn btn--ghost" href="{{ profile.github }}?tab=repositories"
+         target="_blank" rel="noopener noreferrer">
+        {{ t.projects.all_repos }}
+        {% include "main/partials/icon.html" with name="external" %}
+      </a>
+    </div>
+  </div>
+</section>
