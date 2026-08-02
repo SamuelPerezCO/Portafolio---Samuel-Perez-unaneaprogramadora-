@@ -5,7 +5,7 @@ from .content import CONTENT, PROFILE, PROJECTS, TIMELINE, phone_href, whatsapp_
 
 
 class LanguageRoutingTests(TestCase):
-    """El sitio debe responder en los dos idiomas. / The site must serve both languages."""
+    """Elsitio debe responder en los dos idiomas. / The site must serve both languages."""
 
     def test_spanish_home_renders(self):
         response = self.client.get(reverse("main:home"))
