@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0b0f0e;
+  --bg-elevated: #101614;
+  --bg-panel: #131a18;
+  --fg: #e7ece9;
+  --muted: #8ca39a;
+  --accent: #f2b705;
+  --accent-2: #2dd4bf;
+  --border: rgba(231, 236, 233, 0.1);
+  --border-strong: rgba(231, 236, 233, 0.18);
+  --grid-line: rgba(231, 236, 233, 0.05);
+}
+
+:root[data-theme="light"] {
+  --bg: #f6f5f1;
+  --bg-elevated: #ffffff;
+  --bg-panel: #efeee8;
+  --fg: #14201c;
+  --muted: #5b6d66;
+  --accent: #b45309;
+  --accent-2: #0f766e;
+  --border: rgba(20, 32, 28, 0.1);
+  --border-strong: rgba(20, 32, 28, 0.18);
+  --grid-line: rgba(20, 32, 28, 0.05);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-panel: var(--bg-panel);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --font-mono-display: var(--font-ibm-plex-mono);
+  --font-sans: var(--font-inter);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
