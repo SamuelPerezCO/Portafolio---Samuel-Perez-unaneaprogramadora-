@@ -1,47 +1,51 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Tokens. Light is the designed default: cool sage paper, deep ink,
+   one emerald accent (Antioquia's flag, the esmeralda, WhatsApp).
+   ------------------------------------------------------------------ */
 :root {
-  --bg: #0b0f0e;
-  --bg-elevated: #101614;
-  --bg-panel: #131a18;
-  --fg: #e7ece9;
-  --muted: #8ca39a;
-  --accent: #f2b705;
-  --accent-2: #2dd4bf;
-  --border: rgba(231, 236, 233, 0.1);
-  --border-strong: rgba(231, 236, 233, 0.18);
-  --grid-line: rgba(231, 236, 233, 0.05);
+  --paper: #edf0ea;
+  --card: #ffffff;
+  --ink: #121a16;
+  --ink-2: #56635c;
+  --line: #cfd6d0;
+  --line-strong: #a9b5ad;
+  --accent: #0b7a55;
+  --accent-ink: #ffffff;
+  --accent-soft: #d7efe3;
+  --shadow: 0 1px 2px rgba(18, 26, 22, 0.06), 0 18px 44px -18px rgba(18, 26, 22, 0.28);
 }
 
-:root[data-theme="light"] {
-  --bg: #f6f5f1;
-  --bg-elevated: #ffffff;
-  --bg-panel: #efeee8;
-  --fg: #14201c;
-  --muted: #5b6d66;
-  --accent: #b45309;
-  --accent-2: #0f766e;
-  --border: rgba(20, 32, 28, 0.1);
-  --border-strong: rgba(20, 32, 28, 0.18);
-  --grid-line: rgba(20, 32, 28, 0.05);
+:root[data-theme="dark"] {
+  --paper: #0e1512;
+  --card: #151e19;
+  --ink: #eaf0ec;
+  --ink-2: #93a39a;
+  --line: #26332c;
+  --line-strong: #3b4c43;
+  --accent: #3fcb93;
+  --accent-ink: #0b1a13;
+  --accent-soft: #163526;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 44px -18px rgba(0, 0, 0, 0.7);
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-bg-elevated: var(--bg-elevated);
-  --color-bg-panel: var(--bg-panel);
-  --color-fg: var(--fg);
-  --color-muted: var(--muted);
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
-  --color-accent-2: var(--accent-2);
-  --color-border: var(--border);
-  --color-border-strong: var(--border-strong);
-  --font-mono-display: var(--font-ibm-plex-mono);
-  --font-sans: var(--font-inter);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --font-display: var(--font-bricolage), system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), Georgia, serif;
 }
 
 * {
-  border-color: var(--border);
+  border-color: var(--line);
 }
 
 html {
@@ -49,32 +53,205 @@ html {
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
 }
 
 ::selection {
   background: var(--accent);
-  color: var(--bg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+  color: var(--accent-ink);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Display type: a touch condensed, large optical size, tight tracking. */
+.display-tight {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-variation-settings: "wdth" 88, "opsz" 96;
+  letter-spacing: -0.03em;
+}
+
+/* Labels: the only uppercase on the page, reserved for structure. */
+.label {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+/* Spec-sheet rows (ficha técnica). */
+.ficha > div {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.ficha > div:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.ficha dt {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding-top: 0.2rem;
+}
+
+.ficha dd {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.ficha dd a {
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.ficha dd a:hover {
+  text-decoration-color: var(--ink);
+}
+
+/* Real screenshots sit in a thin frame, nothing more. */
+.shot {
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Buttons. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.85rem 1.2rem;
+  border-radius: 8px;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    filter 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.07);
+}
+
+.btn-secondary {
+  border: 1px solid var(--line-strong);
+  color: var(--ink);
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  border-color: var(--ink);
+}
+
+/* Inline text links. */
+.link {
+  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.link:hover {
+  text-decoration-color: var(--ink);
+}
+
+/* One page-load sequence, hero only. Nothing animates on scroll. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.rise-2 {
+  animation-delay: 0.1s;
+}
+
+.rise-3 {
+  animation-delay: 0.2s;
+}
+
+.rise-4 {
+  animation-delay: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

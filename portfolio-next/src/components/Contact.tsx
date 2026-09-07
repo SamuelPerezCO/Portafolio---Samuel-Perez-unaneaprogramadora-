@@ -3,65 +3,63 @@
 import { Mail, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { PROFILE, whatsappUrl } from "@/lib/content";
-import { Reveal } from "./Reveal";
-import { GithubIcon, LinkedinIcon } from "./icons";
 
 export function Contact() {
   const { lang, t } = useLanguage();
 
   return (
-    <section id="contact" className="border-t border-border py-24">
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        <Reveal>
-          <p className="font-mono-display text-xs uppercase tracking-[0.2em] text-accent">
-            {t.contact.eyebrow}
-          </p>
-          <h2 className="mt-3 font-mono-display text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
-            {t.contact.title}
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-muted">{t.contact.intro}</p>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={`mailto:${PROFILE.email}`}
-              className="flex items-center gap-2 rounded bg-accent px-5 py-3 font-mono-display text-sm font-medium text-bg transition-transform hover:scale-[1.03]"
-            >
-              <Mail size={16} /> {t.contact.emailCta}
-            </a>
-            <a
-              href={whatsappUrl(lang)}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 rounded border border-border-strong px-5 py-3 font-mono-display text-sm font-medium text-fg transition-colors hover:border-accent hover:text-accent"
-            >
-              <MessageCircle size={16} /> {t.contact.whatsappCta}
-            </a>
-          </div>
-
-          <div className="mt-12">
-            <p className="font-mono-display text-xs uppercase tracking-widest text-muted">
-              {t.contact.linksTitle}
-            </p>
-            <div className="mt-4 flex items-center justify-center gap-6">
-              <a
-                href={PROFILE.github}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 text-muted transition-colors hover:text-accent"
-              >
-                <GithubIcon size={18} /> <span className="font-mono-display text-sm">{PROFILE.githubUser}</span>
+    <section id="contacto" className="scroll-mt-20 border-t border-line">
+      <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10 md:py-28">
+        <div className="grid gap-12 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end md:gap-20">
+          <div>
+            <h2 className="display-tight max-w-[16ch] text-4xl font-bold leading-[1.02] text-ink md:text-[3.5rem]">
+              {t.contact.title}
+            </h2>
+            <p className="mt-6 max-w-[34rem] text-lg text-ink-2">{t.contact.intro}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href={whatsappUrl(lang)} target="_blank" rel="noreferrer" className="btn btn-primary">
+                <MessageCircle size={16} /> {t.contact.whatsapp}
               </a>
-              <a
-                href={PROFILE.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 text-muted transition-colors hover:text-accent"
-              >
-                <LinkedinIcon size={18} /> <span className="font-mono-display text-sm">{PROFILE.linkedinUser}</span>
+              <a href={`mailto:${PROFILE.email}`} className="btn btn-secondary">
+                <Mail size={16} /> {t.contact.email}
               </a>
             </div>
           </div>
-        </Reveal>
+
+          <dl className="ficha self-end">
+            <div>
+              <dt>WhatsApp</dt>
+              <dd>
+                <a href={PROFILE.whatsappLink} target="_blank" rel="noreferrer">
+                  {PROFILE.phoneDisplay}
+                </a>
+                <span className="mt-1 block text-sm text-ink-2">{t.contact.note}</span>
+              </dd>
+            </div>
+            <div>
+              <dt>{t.contact.emailLabel}</dt>
+              <dd>
+                <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+              </dd>
+            </div>
+            <div>
+              <dt>GitHub</dt>
+              <dd>
+                <a href={PROFILE.github} target="_blank" rel="noreferrer">
+                  {PROFILE.githubUser}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt>LinkedIn</dt>
+              <dd>
+                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
+                  {PROFILE.linkedinUser}
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
       </div>
     </section>
   );
