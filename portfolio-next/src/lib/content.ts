@@ -12,7 +12,7 @@ export const BRAND = {
 
 export const FOUNDER = {
   name: "Samuel Pérez Serna",
-  photo: "/img/samuel.jpg",
+  photo: "/img/samuel-portrait.jpg",
   linkedin: "https://www.linkedin.com/in/samuel-perez-serna",
   linkedinUser: "samuel-perez-serna",
 };
