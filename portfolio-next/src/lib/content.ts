@@ -115,6 +115,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     year: "2026",
     status: "published",
     codePrivate: true,
+    productPrivate: true,
     stack: ["Python", "Django", "PostgreSQL", "MercadoPago", "Vercel"],
     image: { src: "/img/work/arribaya.webp", width: 1600, height: 1000 },
     image2: { src: "/img/work/arribaya-puestos.webp", width: 1600, height: 1000 },
@@ -307,6 +308,7 @@ export const MORE_WORK: MoreWorkItem[] = [
   {
     slug: "agente-whatsapp",
     kind: "team",
+    productPrivate: true,
     year: "2026",
     stack: ["Node.js", "TypeScript", "Fastify", "Prisma", "Gemini"],
     repo: "https://github.com/diegaos1189/Agente-Whatsapp",
