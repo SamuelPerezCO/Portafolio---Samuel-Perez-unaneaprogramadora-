@@ -348,7 +348,6 @@ export const MORE_WORK: MoreWorkItem[] = [
     year: "2026",
     stack: ["Python", "Telegram Bot API", "Vercel"],
     repo: "https://github.com/SamuelPerezCO/Bot_Telegram_Tracker",
-    live: "https://t.me/Tracker90Bot",
     es: {
       title: "Bot de rachas para metas diarias",
       description:
