@@ -6,6 +6,7 @@ import { useLanguage } from "@/lib/language-context";
 import { MORE_WORK, plural } from "@/lib/content";
 import { Section } from "./Section";
 import { GithubIcon } from "./icons";
+import { Glyph } from "@/components/Glyph";
 
 /**
  * Más trabajo — a ledger of repositories. One lc/cc pair per row: the label
@@ -63,6 +64,11 @@ export function MoreWork() {
                   {item.codePrivate && (
                     <span className="label inline-flex min-h-11 items-center gap-1.5">
                       <GithubIcon size={13} /> {t.more.privateCode}
+                    </span>
+                  )}
+                  {item.productPrivate && (
+                    <span className="label inline-flex min-h-11 items-center gap-1.5">
+                      <Glyph on={false} /> {t.more.privateProduct}
                     </span>
                   )}
                 </div>

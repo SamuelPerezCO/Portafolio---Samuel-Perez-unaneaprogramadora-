@@ -17,7 +17,7 @@ export const FOUNDER = {
   linkedinUser: "samuel-perez-serna",
 };
 
-export type CaseStatus = "live" | "published" | "development";
+export type CaseStatus = "live" | "published" | "development" | "construction";
 export type MoreWorkKind = "product" | "team" | "tool" | "experiment";
 
 type CaseCopy = {
@@ -45,6 +45,8 @@ export type CaseStudy = {
   demo?: string;
   /** The code exists but is not public; the case itself explains what was built. */
   codePrivate?: boolean;
+  /** The product belongs to the client (or is not public): no demo, and the page says so. */
+  productPrivate?: boolean;
   image?: { src: string; width: number; height: number };
   image2?: { src: string; width: number; height: number };
   es: CaseCopy;
@@ -56,6 +58,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: "dashboard-gps",
     year: "2026",
     status: "live",
+    productPrivate: true,
     stack: ["Python", "Django", "PostgreSQL", "Chart.js", "Leaflet", "Redis", "Vercel"],
     repo: "https://github.com/SamuelPerezCO/Dashboard-GPS",
     image: { src: "/img/work/dashboard-gps.webp", width: 1600, height: 1000 },
@@ -165,7 +168,8 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "odontologia-paula-munoz",
     year: "2026",
-    status: "live",
+    status: "construction",
+    productPrivate: true,
     stack: ["Python", "Django", "SVG", "JavaScript", "WhatsApp"],
     repo: "https://github.com/SamuelPerezCO/OdontologiaPaulaMunoz",
     image: { src: "/img/work/odontologia.webp", width: 1600, height: 1000 },
@@ -216,7 +220,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     status: "development",
     codePrivate: true,
     stack: ["Python", "Stake Engine", "Svelte", "PixiJS", "TypeScript"],
-    image: { src: "/img/work/el-colombiano.webp", width: 1600, height: 893 },
+    image: { src: "/img/work/el-colombiano-base.webp", width: 1600, height: 1000 },
+    image2: { src: "/img/work/el-colombiano-bonus.webp", width: 1600, height: 1000 },
     es: {
       kicker: "El Colombiano · Stake Engine",
       title: "Una tragamonedas de temática colombiana",
@@ -232,9 +237,12 @@ export const CASE_STUDIES: CaseStudy[] = [
       ],
       result:
         "La matemática del juego base está verificada por simulación y el modo de líneas ya se juega. El bonus y la integración final siguen en curso.",
-      caption: "Arte del juego · fondo del modo base y logo",
+      caption: "Captura real · modo de líneas jugable en Storybook",
       imageAlt:
-        "Ilustración del juego: una finca cafetera entre montañas con el logo «El Colombiano» sobre un tablero de madera",
+        "Tablero del juego base de El Colombiano: cinco rodillos con café, naranja, sombrero vueltiao, chiva, mochila, arepa, esmeralda, acordeón y cóndor sobre una finca cafetera, con balance, ganancia y botón de jugar",
+      caption2: "Captura real · bonus «Encuentra el guaro», en desarrollo",
+      image2Alt:
+        "Pantalla del bonus: doce botellas de guaro para elegir en una tienda de pueblo, con tres premios restantes",
     },
     en: {
       kicker: "El Colombiano · Stake Engine",
@@ -251,9 +259,12 @@ export const CASE_STUDIES: CaseStudy[] = [
       ],
       result:
         "The base-game math is verified by simulation and the lines mode is already playable. The bonus and final integration are still in progress.",
-      caption: "Game art · base-mode background and logo",
+      caption: "Real screenshot · lines mode, playable in Storybook",
       imageAlt:
-        "Game illustration: a coffee farm among mountains with the “El Colombiano” logo over a wooden board",
+        "El Colombiano base-game board: five reels with coffee, orange, vueltiao hat, chiva bus, mochila, arepa, emerald, accordion and condor over a coffee farm, with balance, win and the play button",
+      caption2: "Real screenshot · the “Find the guaro” bonus, in development",
+      image2Alt:
+        "Bonus screen: twelve guaro bottles to pick from in a village shop, three prizes remaining",
     },
   },
 ];
@@ -269,6 +280,7 @@ export type MoreWorkItem = {
   live?: string;
   /** Set when the repo goes private: the row keeps its description and shows "código privado" instead of a link. */
   codePrivate?: boolean;
+  productPrivate?: boolean;
   es: MoreCopy;
   en: MoreCopy;
 };
@@ -277,6 +289,7 @@ export const MORE_WORK: MoreWorkItem[] = [
   {
     slug: "mvp-crm",
     kind: "product",
+    productPrivate: true,
     year: "2026",
     stack: ["Django", "htmx", "PostgreSQL", "WhatsApp Cloud API"],
     repo: "https://github.com/SamuelPerezCO/MVP-CRM",
@@ -578,13 +591,15 @@ export const CONTENT = {
     services: {
       title: "Servicios",
       statement: "Lo que construimos, y el trabajo que lo prueba.",
-      proof: "Lo prueba",
+      refKey: "Referencia",
+      refKeys: "Referencias",
       cases: { one: "caso", other: "casos" },
       repos: { one: "repositorio", other: "repositorios" },
     },
     work: {
       title: "Proyectos",
       statement: "Trabajos con capturas reales, no maquetas.",
+      note: "Los productos son de los clientes y no están disponibles para probar; lo que se ve son capturas reales.",
       cases: { one: "caso", other: "casos" },
       countSuffix: "capturas reales",
       labels: {
@@ -599,11 +614,13 @@ export const CONTENT = {
         code: "Ver el código",
         demo: "Ver en vivo",
         privateCode: "Código privado",
+        privateProduct: "Producto privado · no disponible para probar",
       },
       statusValues: {
         live: "En uso",
         published: "Publicado",
         development: "En desarrollo",
+        construction: "En construcción",
       },
     },
     more: {
@@ -620,6 +637,7 @@ export const CONTENT = {
       live: "Probarlo",
       code: "Código",
       privateCode: "Código privado",
+      privateProduct: "Producto privado · no disponible para probar",
     },
     testimonials: {
       title: "Testimonios",
@@ -721,13 +739,15 @@ export const CONTENT = {
     services: {
       title: "Services",
       statement: "What we build, and the work that proves it.",
-      proof: "Proof",
+      refKey: "Reference",
+      refKeys: "References",
       cases: { one: "case", other: "cases" },
       repos: { one: "repository", other: "repositories" },
     },
     work: {
       title: "Projects",
       statement: "Work with real screenshots, not mockups.",
+      note: "The products belong to the clients and are not available to try; what you see are real screenshots.",
       cases: { one: "case", other: "cases" },
       countSuffix: "real screenshots",
       labels: {
@@ -742,11 +762,13 @@ export const CONTENT = {
         code: "View the code",
         demo: "See it live",
         privateCode: "Private code",
+        privateProduct: "Private product · not available to try",
       },
       statusValues: {
         live: "In use",
         published: "Published",
         development: "In development",
+        construction: "Under construction",
       },
     },
     more: {
@@ -763,6 +785,7 @@ export const CONTENT = {
       live: "Try it",
       code: "Code",
       privateCode: "Private code",
+      privateProduct: "Private product · not available to try",
     },
     testimonials: {
       title: "Testimonials",
@@ -830,6 +853,11 @@ export const CONTENT = {
 /** "1 caso" / "2 casos" from a {one, other} pair. */
 export function plural(n: number, forms: { one: string; other: string }): string {
   return `${n} ${n === 1 ? forms.one : forms.other}`;
+}
+
+/** The status glyph is filled only while the product is actually running. */
+export function statusIsOn(status: CaseStatus): boolean {
+  return status === "live" || status === "published";
 }
 
 export function whatsappUrl(lang: Lang): string {

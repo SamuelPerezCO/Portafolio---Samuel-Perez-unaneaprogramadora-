@@ -53,7 +53,7 @@ export function Services() {
     <Section id="servicios">
       <div className="lc">
         <h2 className="sec-name">{t.services.title}</h2>
-        <p className="label mt-6">{t.services.proof}</p>
+        <p className="label mt-6">{t.services.refKeys}</p>
         <p className="value mt-2">
           {plural(cases, t.services.cases)} · {plural(repos, t.services.repos)}
         </p>
@@ -75,7 +75,7 @@ export function Services() {
                     negative margin + padding pair keeps the ≥44px hit area without
                     inflating the row. */}
                 <div className="mt-4 grid grid-cols-[auto_minmax(0,1fr)] items-baseline gap-x-3">
-                  <span className="label">{t.services.proof}</span>
+                  <span className="label">{t.services.refKey}</span>
                   <div className="flex flex-col gap-1">
                     <a className="link -my-2 min-h-11 py-2" href={s.proof}>
                       {withArrow(s[lang].proofLabel)}

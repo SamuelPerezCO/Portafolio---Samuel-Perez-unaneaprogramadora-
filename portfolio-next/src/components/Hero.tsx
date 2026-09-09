@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
-import { CASE_STUDIES, whatsappUrl } from "@/lib/content";
+import { statusIsOn, CASE_STUDIES, whatsappUrl } from "@/lib/content";
 import { Section } from "@/components/Section";
 import { Glyph } from "@/components/Glyph";
 import { WhatsappIcon } from "@/components/icons";
@@ -73,7 +73,7 @@ export function Hero() {
       <div className="lc mt-8 lg:col-start-1 lg:row-start-2 lg:mt-16 lg:self-start">
         <a href={caseHref} className="block">
           <p className="label">
-            <Glyph on={first.status !== "development"} className="mr-1" />
+            <Glyph on={statusIsOn(first.status)} className="mr-1" />
             {status}
             <span className="lg:hidden">
               {" · "}

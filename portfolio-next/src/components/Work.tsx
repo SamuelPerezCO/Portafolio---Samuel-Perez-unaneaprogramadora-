@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
-import { CASE_STUDIES, plural, type CaseStudy } from "@/lib/content";
+import { statusIsOn, CASE_STUDIES, plural, type CaseStudy } from "@/lib/content";
 import { Section } from "./Section";
 import { Glyph } from "./Glyph";
 import { GithubIcon } from "./icons";
@@ -22,7 +22,7 @@ function CaseFicha({ cs, className }: { cs: CaseStudy; className: string }) {
   const { lang, t } = useLanguage();
   const c = cs[lang];
   const L = t.work.labels;
-  const live = cs.status !== "development";
+  const live = statusIsOn(cs.status);
 
   return (
     <dl className={className}>
@@ -73,12 +73,13 @@ export function Work() {
       </div>
       <div className="cc pb-6">
         <p className="statement mt-6 lg:mt-0">{t.work.statement}</p>
+        <p className="small mt-3 max-w-[40rem]">{t.work.note}</p>
       </div>
 
       {CASE_STUDIES.map((cs, i) => {
         const c = cs[lang];
         const first = i === 0;
-        const hasLinks = Boolean(cs.repo || cs.demo || cs.codePrivate);
+        const hasLinks = Boolean(cs.repo || cs.demo || cs.codePrivate || cs.productPrivate);
 
         return (
           <Fragment key={cs.slug}>
@@ -156,6 +157,11 @@ export function Work() {
                     {cs.codePrivate && (
                       <span className="label inline-flex min-h-11 items-center gap-1.5">
                         <GithubIcon size={13} /> {L.privateCode}
+                      </span>
+                    )}
+                    {cs.productPrivate && (
+                      <span className="label inline-flex min-h-11 items-center gap-1.5">
+                        <Glyph on={false} /> {L.privateProduct}
                       </span>
                     )}
                   </div>
