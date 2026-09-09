@@ -60,6 +60,11 @@ export function MoreWork() {
                       <GithubIcon size={15} /> {t.more.code}
                     </a>
                   )}
+                  {item.codePrivate && (
+                    <span className="label inline-flex min-h-11 items-center gap-1.5">
+                      <GithubIcon size={13} /> {t.more.privateCode}
+                    </span>
+                  )}
                 </div>
               </div>
             </MoreWorkRow>

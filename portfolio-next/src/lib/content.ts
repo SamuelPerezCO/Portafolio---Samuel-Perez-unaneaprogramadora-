@@ -43,6 +43,8 @@ export type CaseStudy = {
   stack: string[];
   repo?: string;
   demo?: string;
+  /** The code exists but is not public; the case itself explains what was built. */
+  codePrivate?: boolean;
   image?: { src: string; width: number; height: number };
   image2?: { src: string; width: number; height: number };
   es: CaseCopy;
@@ -109,6 +111,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: "arribaya",
     year: "2026",
     status: "published",
+    codePrivate: true,
     stack: ["Python", "Django", "PostgreSQL", "MercadoPago", "Vercel"],
     image: { src: "/img/work/arribaya.webp", width: 1600, height: 1000 },
     image2: { src: "/img/work/arribaya-puestos.webp", width: 1600, height: 1000 },
@@ -211,6 +214,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     slug: "el-colombiano",
     year: "2026",
     status: "development",
+    codePrivate: true,
     stack: ["Python", "Stake Engine", "Svelte", "PixiJS", "TypeScript"],
     image: { src: "/img/work/el-colombiano.webp", width: 1600, height: 893 },
     es: {
@@ -263,6 +267,8 @@ export type MoreWorkItem = {
   stack: string[];
   repo?: string;
   live?: string;
+  /** Set when the repo goes private: the row keeps its description and shows "código privado" instead of a link. */
+  codePrivate?: boolean;
   es: MoreCopy;
   en: MoreCopy;
 };
@@ -274,7 +280,6 @@ export const MORE_WORK: MoreWorkItem[] = [
     year: "2026",
     stack: ["Django", "htmx", "PostgreSQL", "WhatsApp Cloud API"],
     repo: "https://github.com/SamuelPerezCO/MVP-CRM",
-    live: "https://mvp-crm-lake.vercel.app",
     es: {
       title: "CRM omnicanal para comercios",
       description:
@@ -594,6 +599,7 @@ export const CONTENT = {
         result: "En qué quedó",
         code: "Ver el código",
         demo: "Ver en vivo",
+        privateCode: "Código privado",
       },
       statusValues: {
         live: "En uso",
@@ -614,6 +620,7 @@ export const CONTENT = {
       },
       live: "Probarlo",
       code: "Código",
+      privateCode: "Código privado",
     },
     testimonials: {
       title: "Testimonios",
@@ -735,6 +742,7 @@ export const CONTENT = {
         result: "Where it stands",
         code: "View the code",
         demo: "See it live",
+        privateCode: "Private code",
       },
       statusValues: {
         live: "In use",
@@ -755,6 +763,7 @@ export const CONTENT = {
       },
       live: "Try it",
       code: "Code",
+      privateCode: "Private code",
     },
     testimonials: {
       title: "Testimonials",

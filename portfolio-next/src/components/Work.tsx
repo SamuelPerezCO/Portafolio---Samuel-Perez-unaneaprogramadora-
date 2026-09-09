@@ -78,7 +78,7 @@ export function Work() {
       {CASE_STUDIES.map((cs, i) => {
         const c = cs[lang];
         const first = i === 0;
-        const hasLinks = Boolean(cs.repo || cs.demo);
+        const hasLinks = Boolean(cs.repo || cs.demo || cs.codePrivate);
 
         return (
           <Fragment key={cs.slug}>
@@ -152,6 +152,11 @@ export function Work() {
                       <a href={cs.demo} target="_blank" rel="noreferrer" className="link min-h-11">
                         <ArrowUpRight size={15} /> {L.demo}
                       </a>
+                    )}
+                    {cs.codePrivate && (
+                      <span className="label inline-flex min-h-11 items-center gap-1.5">
+                        <GithubIcon size={13} /> {L.privateCode}
+                      </span>
                     )}
                   </div>
                 )}
