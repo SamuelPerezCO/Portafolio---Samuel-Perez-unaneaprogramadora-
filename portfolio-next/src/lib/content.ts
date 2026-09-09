@@ -118,7 +118,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     es: {
       kicker: "ArribaYA",
       title: "Un ranking de avisos donde el puesto #1 se compra",
-      client: "Producto propio, pensado para el mercado argentino",
+      client: "Producto propio, pensado para el mercado colombiano",
       sector: "Publicidad",
       kind: "Producto propio",
       problem:
@@ -141,7 +141,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     en: {
       kicker: "ArribaYA",
       title: "A listings ranking where the #1 spot is for sale",
-      client: "Own product, built for the Argentine market",
+      client: "Own product, built for the Colombian market",
       sector: "Advertising",
       kind: "Own product",
       problem:
