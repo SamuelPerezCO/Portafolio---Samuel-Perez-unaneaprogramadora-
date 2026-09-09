@@ -1,16 +1,24 @@
 export type Lang = "es" | "en";
 
-export const PROFILE = {
-  name: "Samuel Pérez Serna",
-  photo: "/img/samuel.jpg",
+export const BRAND = {
+  name: "UNP Software",
+  url: "https://unpsoftware.com",
   email: "unpsoftware@gmail.com",
-  github: "https://github.com/SamuelPerezCO",
-  githubUser: "SamuelPerezCO",
-  linkedin: "https://www.linkedin.com/in/samuel-perez-serna",
-  linkedinUser: "samuel-perez-serna",
   phoneDisplay: "+57 316 768 7288",
   whatsappLink: "https://wa.me/573167687288",
+  github: "https://github.com/SamuelPerezCO",
+  githubUser: "SamuelPerezCO",
 };
+
+export const FOUNDER = {
+  name: "Samuel Pérez Serna",
+  photo: "/img/samuel.jpg",
+  linkedin: "https://www.linkedin.com/in/samuel-perez-serna",
+  linkedinUser: "samuel-perez-serna",
+};
+
+export type CaseStatus = "live" | "published" | "development";
+export type MoreWorkKind = "product" | "team" | "tool" | "experiment";
 
 type CaseCopy = {
   kicker: string;
@@ -23,15 +31,20 @@ type CaseCopy = {
   result: string;
   caption: string;
   imageAlt: string;
+  /** Caption and alt for the second screenshot, when the case has one. */
+  caption2?: string;
+  image2Alt?: string;
 };
 
 export type CaseStudy = {
   slug: string;
   year: string;
+  status: CaseStatus;
   stack: string[];
   repo?: string;
   demo?: string;
   image?: { src: string; width: number; height: number };
+  image2?: { src: string; width: number; height: number };
   es: CaseCopy;
   en: CaseCopy;
 };
@@ -40,9 +53,11 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "dashboard-gps",
     year: "2026",
+    status: "live",
     stack: ["Python", "Django", "PostgreSQL", "Chart.js", "Leaflet", "Redis", "Vercel"],
     repo: "https://github.com/SamuelPerezCO/Dashboard-GPS",
     image: { src: "/img/work/dashboard-gps.webp", width: 1600, height: 1000 },
+    image2: { src: "/img/work/dashboard-gps-mapa.webp", width: 1600, height: 1000 },
     es: {
       kicker: "Rastrelital · Expreso Brasilia",
       title: "Panel de ocupación para una flota de buses",
@@ -60,6 +75,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       result:
         "Hoy el panel reporta la ocupación real de 28 unidades. Una auditoría en agosto de 2026 encontró y corrigió un conteo que inflaba la ocupación hasta un 291 %.",
       caption: "Captura real · ocupación del último mes, septiembre de 2026",
+      caption2: "Captura real · mapa de la flota y último reporte de cada unidad",
+      image2Alt:
+        "Panel con el mapa de la flota en la costa Caribe colombiana y la tabla de unidades con placa, estado, velocidad y último reporte",
       imageAlt:
         "Panel de ocupación de la flota con filtros por empresa, tipo de vehículo y rango de fechas, y gráficas de servicios, timbradas y ocupación por vehículo",
     },
@@ -80,6 +98,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       result:
         "The dashboard now reports real occupancy for 28 units. An audit in August 2026 found and fixed a count that had inflated occupancy to 291%.",
       caption: "Real screenshot · last-month occupancy, September 2026",
+      caption2: "Real screenshot · fleet map and each unit's last report",
+      image2Alt:
+        "Dashboard with the fleet map on Colombia's Caribbean coast and the units table with plate, state, speed and last report",
       imageAlt:
         "Fleet occupancy dashboard with company, vehicle type and date range filters, and charts for trips, taps and occupancy per vehicle",
     },
@@ -87,8 +108,10 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "arribaya",
     year: "2026",
+    status: "published",
     stack: ["Python", "Django", "PostgreSQL", "MercadoPago", "Vercel"],
     image: { src: "/img/work/arribaya.webp", width: 1600, height: 1000 },
+    image2: { src: "/img/work/arribaya-puestos.webp", width: 1600, height: 1000 },
     es: {
       kicker: "ArribaYA",
       title: "Un ranking de avisos donde el puesto #1 se compra",
@@ -104,8 +127,11 @@ export const CASE_STUDIES: CaseStudy[] = [
         "Interfaz oscura propia, sin frameworks de CSS, desplegada en Vercel.",
       ],
       result:
-        "Un producto que funciona de punta a punta, publicar, pagar, subir de puesto y medir, en un solo despliegue de Django.",
+        "Un producto que funciona de punta a punta —publicar, pagar, subir de puesto y medir— en un solo despliegue de Django.",
       caption: "Captura real · portada con avisos de demostración",
+      caption2: "Captura real · todos los puestos, con avisos de demostración",
+      image2Alt:
+        "Lista de todos los puestos de ArribaYA: cada aviso con su posición, categoría, precio pagado y el botón para superarlo",
       imageAlt:
         "Portada de ArribaYA con el formulario para comprar el puesto número uno, el top del día y el feed de última actividad",
     },
@@ -124,8 +150,11 @@ export const CASE_STUDIES: CaseStudy[] = [
         "A custom dark interface with no CSS framework, deployed on Vercel.",
       ],
       result:
-        "A product that works end to end, publish, pay, climb and measure, in a single Django deployment.",
+        "A product that works end to end — publish, pay, climb the ranking and measure — in a single Django deployment.",
       caption: "Real screenshot · home page with demo listings",
+      caption2: "Real screenshot · every spot, with demo listings",
+      image2Alt:
+        "ArribaYA's full ranking: every listing with its position, category, price paid and the button to outbid it",
       imageAlt:
         "ArribaYA home page with the form to buy the number-one spot, today's top listing and the latest-activity feed",
     },
@@ -133,6 +162,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "odontologia-paula-munoz",
     year: "2026",
+    status: "live",
     stack: ["Python", "Django", "SVG", "JavaScript", "WhatsApp"],
     repo: "https://github.com/SamuelPerezCO/OdontologiaPaulaMunoz",
     image: { src: "/img/work/odontologia.webp", width: 1600, height: 1000 },
@@ -180,6 +210,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "el-colombiano",
     year: "2026",
+    status: "development",
     stack: ["Python", "Stake Engine", "Svelte", "PixiJS", "TypeScript"],
     image: { src: "/img/work/el-colombiano.webp", width: 1600, height: 893 },
     es: {
@@ -187,7 +218,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       title: "Una tragamonedas de temática colombiana",
       client: "Proyecto propio para la plataforma Stake Engine",
       sector: "Juegos",
-      kind: "En desarrollo",
+      kind: "Proyecto propio",
       problem:
         "Un slot con cóndor, esmeralda, chiva, arepa y guaro que corra en Stake Engine. En un juego de azar la matemática tiene que cerrar antes de que exista una sola animación.",
       built: [
@@ -206,9 +237,9 @@ export const CASE_STUDIES: CaseStudy[] = [
       title: "A Colombian-themed slot game",
       client: "Own project for the Stake Engine platform",
       sector: "Games",
-      kind: "In development",
+      kind: "Own project",
       problem:
-        "A slot with a condor, an emerald, a chiva bus, an arepa and guaro that runs on Stake Engine. In a game of chance the math has to close before a single animation exists.",
+        "A slot with a condor, an emerald, a chiva bus, an arepa and guaro that runs on Stake Engine. In a game of chance the math has to add up before a single animation exists.",
       built: [
         "A math model in Python on Stake's math-sdk: paylines, symbol table, a guaro pick bonus and simulations to verify the return to player.",
         "The game client in Svelte and PixiJS on Stake's web-sdk, playable from Storybook.",
@@ -225,11 +256,9 @@ export const CASE_STUDIES: CaseStudy[] = [
 
 type MoreCopy = { title: string; description: string };
 
-export type MoreWorkGroup = "work" | "lab";
-
 export type MoreWorkItem = {
   slug: string;
-  group: MoreWorkGroup;
+  kind: MoreWorkKind;
   year: string;
   stack: string[];
   repo?: string;
@@ -238,12 +267,10 @@ export type MoreWorkItem = {
   en: MoreCopy;
 };
 
-export const MORE_WORK_GROUPS: MoreWorkGroup[] = ["work", "lab"];
-
 export const MORE_WORK: MoreWorkItem[] = [
   {
     slug: "mvp-crm",
-    group: "work",
+    kind: "product",
     year: "2026",
     stack: ["Django", "htmx", "PostgreSQL", "WhatsApp Cloud API"],
     repo: "https://github.com/SamuelPerezCO/MVP-CRM",
@@ -261,24 +288,24 @@ export const MORE_WORK: MoreWorkItem[] = [
   },
   {
     slug: "agente-whatsapp",
-    group: "work",
+    kind: "team",
     year: "2026",
     stack: ["Node.js", "TypeScript", "Fastify", "Prisma", "Gemini"],
     repo: "https://github.com/diegaos1189/Agente-Whatsapp",
     es: {
       title: "Agente de ventas por WhatsApp para negocios de comida",
       description:
-        "Menú, toma de pedidos, pagos y escalamiento a una persona, con clasificación de intención y extracción de datos por IA, con guardas contra alucinaciones. Trabajo en equipo.",
+        "Menú, toma de pedidos, pagos y escalamiento a una persona, con clasificación de intención y extracción de datos por IA, con guardas contra alucinaciones.",
     },
     en: {
       title: "WhatsApp sales agent for food businesses",
       description:
-        "Menu, order taking, payments and hand-off to a human, with AI intent classification and entity extraction behind anti-hallucination guardrails. Team project.",
+        "Menu, order taking, payments and hand-off to a human, with AI intent classification and entity extraction behind anti-hallucination guardrails.",
     },
   },
   {
     slug: "reporte",
-    group: "work",
+    kind: "product",
     year: "2026",
     stack: ["Python", "Django", "Supabase", "PostgreSQL", "Vercel"],
     repo: "https://github.com/SamuelPerezCO/Reporte",
@@ -295,7 +322,7 @@ export const MORE_WORK: MoreWorkItem[] = [
   },
   {
     slug: "claude-token-counter",
-    group: "work",
+    kind: "tool",
     year: "2026",
     stack: ["Python", "Claude Code"],
     repo: "https://github.com/SamuelPerezCO/Claude_Token_Counter",
@@ -312,7 +339,7 @@ export const MORE_WORK: MoreWorkItem[] = [
   },
   {
     slug: "bot-telegram-tracker",
-    group: "work",
+    kind: "product",
     year: "2026",
     stack: ["Python", "Telegram Bot API", "Vercel"],
     repo: "https://github.com/SamuelPerezCO/Bot_Telegram_Tracker",
@@ -325,12 +352,12 @@ export const MORE_WORK: MoreWorkItem[] = [
     en: {
       title: "Streak bot for daily goals",
       description:
-        "You write your goals and the period you give yourself; the bot reminds you of each one at its hour and keeps the streak. Miss one and only that one restarts.",
+        "You write your goals and the period you give yourself; the bot reminds you of each one at its set time and tracks the streak. Miss one and only that one restarts.",
     },
   },
   {
     slug: "calendar-telegram-api",
-    group: "work",
+    kind: "tool",
     year: "2026",
     stack: ["Python", "Telegram Bot API", "Google Calendar API"],
     repo: "https://github.com/SamuelPerezCO/Calendar_Telegram_API",
@@ -342,12 +369,12 @@ export const MORE_WORK: MoreWorkItem[] = [
     en: {
       title: "Telegram bot for Google Calendar",
       description:
-        "Create, read, update and delete calendar events from the chat. In development, part time.",
+        "Create, read, update and delete calendar events from the chat. In development, on and off.",
     },
   },
   {
     slug: "face-liveness-check",
-    group: "work",
+    kind: "experiment",
     year: "2026",
     stack: ["TypeScript", "Angular", "AWS Rekognition", "Amplify"],
     repo: "https://github.com/SamuelPerezCO/Face-Liveness-check",
@@ -364,24 +391,24 @@ export const MORE_WORK: MoreWorkItem[] = [
   },
   {
     slug: "follow-up",
-    group: "work",
+    kind: "tool",
     year: "2026",
     stack: ["Python", "Django"],
     repo: "https://github.com/SamuelPerezCO/Follow-Up",
     es: {
       title: "Tablero tipo Jira, sin usuarios",
       description:
-        "Cuatro columnas, proyectos y tareas, para seguir el avance de mis propios desarrollos sin montar nada más.",
+        "Cuatro columnas, proyectos y tareas, para seguir el avance de nuestros propios desarrollos sin montar nada más.",
     },
     en: {
       title: "A Jira-style board, no accounts",
       description:
-        "Four columns, projects and issues, to track the progress of my own work without setting anything else up.",
+        "Four columns, projects and issues, to track the progress of our own work without setting anything else up.",
     },
   },
   {
     slug: "bot-agendar-clase",
-    group: "work",
+    kind: "tool",
     year: "2025",
     stack: ["Python", "Selenium", "PyAutoGUI"],
     repo: "https://github.com/SamuelPerezCO/botAgendarClase",
@@ -396,168 +423,6 @@ export const MORE_WORK: MoreWorkItem[] = [
         "The computer powers on at 6:00 a.m., the bot logs into the platform, books the class for the set day and time, and shuts the machine down.",
     },
   },
-  {
-    slug: "exercise-counter",
-    group: "lab",
-    year: "2026",
-    stack: ["Python", "MediaPipe", "OpenCV"],
-    repo: "https://github.com/SamuelPerezCO/Exercise-Counter",
-    es: {
-      title: "Contador de repeticiones con la cámara",
-      description:
-        "Reconoce si haces sentadillas o flexiones por la inclinación del torso y cuenta cada repetición con una máquina de estados sobre el ángulo de la rodilla o del codo.",
-    },
-    en: {
-      title: "Rep counter with the webcam",
-      description:
-        "Tells squats from push-ups by torso angle and counts each rep with a state machine over the knee or elbow angle.",
-    },
-  },
-  {
-    slug: "vibe-arcade",
-    group: "lab",
-    year: "2026",
-    stack: ["Python", "pygame-ce"],
-    repo: "https://github.com/SamuelPerezCO/Vibe-Arcade-",
-    es: {
-      title: "Vibe Arcade, tres juegos en un menú",
-      description: "Snake, un plataformas estilo Mario y Buscaminas, escritos en Python con pygame.",
-    },
-    en: {
-      title: "Vibe Arcade, three games behind one menu",
-      description: "Snake, a Mario-style platformer and Minesweeper, written in Python with pygame.",
-    },
-  },
-  {
-    slug: "test-api",
-    group: "lab",
-    year: "2026",
-    stack: ["JavaScript", "Chart.js", "PokeAPI"],
-    repo: "https://github.com/SamuelPerezCO/Test-API",
-    es: {
-      title: "Visor de estadísticas Pokémon",
-      description:
-        "Busca un Pokémon en la PokeAPI y dibuja sus estadísticas en siete tipos de gráfica, con comparación entre dos.",
-    },
-    en: {
-      title: "Pokémon stats viewer",
-      description:
-        "Looks up a Pokémon in the PokeAPI and draws its stats in seven chart types, with a two-Pokémon comparison.",
-    },
-  },
-  {
-    slug: "bot-telegram",
-    group: "lab",
-    year: "2026",
-    stack: ["Python", "python-telegram-bot"],
-    repo: "https://github.com/SamuelPerezCO/Bot_Telegram",
-    es: {
-      title: "Bot de Telegram con lista de tareas",
-      description:
-        "Comandos, conversaciones de varios pasos, teclados en línea y manejo de mensajes, hecho para aprender la librería.",
-    },
-    en: {
-      title: "Telegram bot with a to-do list",
-      description:
-        "Commands, multi-step conversations, inline keyboards and message handling, built to learn the library.",
-    },
-  },
-  {
-    slug: "hand-tracking",
-    group: "lab",
-    year: "2026",
-    stack: ["Python", "OpenCV", "MediaPipe"],
-    repo: "https://github.com/SamuelPerezCO/Hand_Tracking",
-    es: {
-      title: "Detector de gestos con la mano",
-      description: "Cuenta los dedos levantados en tiempo real con la cámara, del uno al cinco.",
-    },
-    en: {
-      title: "Hand gesture detector",
-      description: "Counts raised fingers in real time from the webcam, one to five.",
-    },
-  },
-  {
-    slug: "ics-file-creator",
-    group: "lab",
-    year: "2026",
-    stack: ["Python", "icalendar"],
-    repo: "https://github.com/SamuelPerezCO/ICS-file-creator",
-    es: {
-      title: "Generador de archivos .ics",
-      description: "Ejercicio corto: crear un evento de calendario e importarlo en cualquier agenda.",
-    },
-    en: {
-      title: "ICS file generator",
-      description: "Short exercise: create a calendar event and import it into any calendar app.",
-    },
-  },
-  {
-    slug: "crud-consultorio-medico",
-    group: "lab",
-    year: "2025",
-    stack: ["Python", "CustomTkinter", "SQLite"],
-    repo: "https://github.com/SamuelPerezCO/CRUD_ConsultorioMedico",
-    es: {
-      title: "CRUD de escritorio para un consultorio médico",
-      description: "Pacientes, historia clínica y citas, con registro de eventos por fecha.",
-    },
-    en: {
-      title: "Desktop CRUD for a medical office",
-      description: "Patients, medical history and appointments, with dated event logging.",
-    },
-  },
-  {
-    slug: "contador",
-    group: "lab",
-    year: "2024",
-    stack: ["Python", "Tkinter", "MySQL"],
-    repo: "https://github.com/SamuelPerezCO/Contador",
-    es: {
-      title: "Contador con Tkinter y MySQL",
-      description:
-        "El primer proyecto del repositorio: un contador de eventos por día, semana, mes y año guardado en base de datos.",
-    },
-    en: {
-      title: "Counter with Tkinter and MySQL",
-      description:
-        "The first project in the repository: a counter of events by day, week, month and year stored in a database.",
-    },
-  },
-  {
-    slug: "siic-bd",
-    group: "lab",
-    year: "2023",
-    stack: ["Java", "JSP", "Oracle"],
-    repo: "https://github.com/SamuelPerezCO/Siic-BD",
-    es: {
-      title: "SIIC, base de datos del semillero",
-      description:
-        "Aplicación web para publicar grabaciones, diapositivas y tutoriales del semillero de inteligencia computacional del Politécnico, con Juan Pablo Restrepo y Wilmar Osorio.",
-    },
-    en: {
-      title: "SIIC, the research group's database",
-      description:
-        "Web app to publish recordings, slides and tutorials for the Politécnico's computational intelligence research group, with Juan Pablo Restrepo and Wilmar Osorio.",
-    },
-  },
-  {
-    slug: "siic",
-    group: "lab",
-    year: "2023",
-    stack: ["HTML", "CSS", "JavaScript"],
-    repo: "https://github.com/SamuelPerezCO/SIIC-Repositorio",
-    es: {
-      title: "SIIC, sistema de información del Politécnico",
-      description:
-        "Proyecto PPI desarrollado en equipo de principio a fin: levantamiento de requisitos, documentación e interfaz web.",
-    },
-    en: {
-      title: "SIIC, an information system for the Politécnico",
-      description:
-        "PPI project built as a team from start to finish: requirements gathering, documentation and a web interface.",
-    },
-  },
 ];
 
 export const STACK = [
@@ -567,122 +432,357 @@ export const STACK = [
   { key: "tools", items: ["Git", "Vercel", "Supabase", "Neon", "Postman", "Figma"] },
 ] as const;
 
+export type ServiceKey = "web" | "data" | "agents" | "crm";
+
+type ServiceCopy = { title: string; description: string; proofLabel: string };
+
+export type Service = {
+  key: ServiceKey;
+  /** Anchor of the project on this page that proves the service (a case-study or repo slug). */
+  proof: string;
+  /** Only technologies present in the referenced project. */
+  stack: string[];
+  es: ServiceCopy;
+  en: ServiceCopy;
+};
+
+export const SERVICES: Service[] = [
+  {
+    key: "web",
+    proof: "#odontologia-paula-munoz",
+    stack: ["Django", "JavaScript", "SVG"],
+    es: {
+      title: "Sitios y aplicaciones web",
+      description:
+        "Sitios que el negocio administra solo y aplicaciones a la medida, con Django o Next.js, desplegadas donde convenga.",
+      proofLabel: "Clínica Dra. Paula Muñoz",
+    },
+    en: {
+      title: "Websites and web apps",
+      description:
+        "Sites the business runs on its own and custom applications, built with Django or Next.js and deployed wherever makes sense.",
+      proofLabel: "Dra. Paula Muñoz clinic",
+    },
+  },
+  {
+    key: "data",
+    proof: "#dashboard-gps",
+    stack: ["Django", "PostgreSQL", "Redis", "Chart.js"],
+    es: {
+      title: "Paneles de datos e integraciones",
+      description:
+        "Tomamos lo que ya entregan tus proveedores —GPS, pagos, calendarios, hojas de cálculo— y lo convertimos en un panel que responde preguntas del negocio.",
+      proofLabel: "Panel de flota · Rastrelital",
+    },
+    en: {
+      title: "Data dashboards and integrations",
+      description:
+        "We take what your providers already deliver — GPS, payments, calendars, spreadsheets — and turn it into a dashboard that answers business questions.",
+      proofLabel: "Fleet dashboard · Rastrelital",
+    },
+  },
+  {
+    key: "agents",
+    proof: "#agente-whatsapp",
+    stack: ["Node.js", "TypeScript", "Fastify", "Gemini"],
+    es: {
+      title: "Agentes de WhatsApp y bots de Telegram",
+      description:
+        "Atención y ventas por chat: menús, pedidos, recordatorios y paso a una persona cuando hace falta, con reglas claras para la IA.",
+      proofLabel: "Agente de ventas por WhatsApp",
+    },
+    en: {
+      title: "WhatsApp agents and Telegram bots",
+      description:
+        "Support and sales over chat: menus, orders, reminders and hand-off to a person when needed, with clear rules for the AI.",
+      proofLabel: "WhatsApp sales agent",
+    },
+  },
+  {
+    key: "crm",
+    proof: "#mvp-crm",
+    stack: ["Django", "htmx", "WhatsApp Cloud API"],
+    es: {
+      title: "CRMs y herramientas internas",
+      description:
+        "Bandejas unificadas, embudos, catálogos y tableros de seguimiento: la herramienta interna que la empresa necesita y no encuentra hecha.",
+      proofLabel: "CRM omnicanal",
+    },
+    en: {
+      title: "CRMs and internal tools",
+      description:
+        "Unified inboxes, funnels, catalogues and tracking boards: the internal tool the company needs and can't find off the shelf.",
+      proofLabel: "Omnichannel CRM",
+    },
+  },
+];
+
+type TestimonialCopy = { quote: string; name: string; role: string };
+
+/** An empty quote renders the reserved slot; the founder fills quote/name/role with a real, authorised testimonial. */
+export type Testimonial = {
+  id: string;
+  es: TestimonialCopy;
+  en: TestimonialCopy;
+};
+
+export const TESTIMONIALS: Testimonial[] = [
+  { id: "t1", es: { quote: "", name: "", role: "" }, en: { quote: "", name: "", role: "" } },
+  { id: "t2", es: { quote: "", name: "", role: "" }, en: { quote: "", name: "", role: "" } },
+  { id: "t3", es: { quote: "", name: "", role: "" }, en: { quote: "", name: "", role: "" } },
+];
+
+/* Copy. Rules: no count is ever typed into a string (counts are computed at
+   render); uppercase is applied by CSS, so keys and section names are written
+   in sentence case here. "We" for the agency, "I" only in the founder's note. */
 export const CONTENT = {
   es: {
+    meta: {
+      title: "UNP Software — Desarrollo de software a la medida en Envigado",
+      description:
+        "Sitios, paneles de datos, CRMs y agentes de WhatsApp que ya trabajan en negocios reales. UNP Software, Envigado, Colombia.",
+    },
     nav: {
+      services: "Servicios",
       projects: "Proyectos",
-      about: "Sobre mí",
+      about: "Nosotros",
       contact: "Contacto",
       menu: "Menú",
+      close: "Cerrar el menú",
       language: "Cambiar a inglés",
       theme: "Cambiar tema",
+      themeLight: "Cambiar a tema claro",
+      themeDark: "Cambiar a tema oscuro",
+      skip: "Saltar al contenido",
+      home: "Ir al inicio",
+      whatsapp: "WhatsApp",
+      whatsappLong: "Escribir por WhatsApp",
     },
     hero: {
-      eyebrow: "Envigado, Colombia · Desarrollador de software",
-      headline: "Software que ya está trabajando en negocios reales.",
-      sub: "Soy Samuel Pérez Serna. Con Python y Django construyo las herramientas que una empresa necesita y no tiene: paneles de datos, sitios, CRMs y agentes de WhatsApp.",
-      ctaPrimary: "Ver los proyectos",
-      ctaSecondary: "Escribir por WhatsApp",
-      photoAlt: "Samuel Pérez Serna",
-      photoCaption: "Samuel Pérez Serna · Envigado, Antioquia",
+      headline: "Software a la medida para negocios que ya operan.",
+      lead: "Paneles de datos, CRMs, agentes de WhatsApp e integraciones para pymes de Colombia y LatAm. Lo construimos y lo dejamos funcionando.",
+      ctaPrimary: "Escribir por WhatsApp",
+      ctaSecondary: "Ver los proyectos",
+      facts: {
+        seat: { key: "Sede", value: "Envigado, Antioquia · UTC−5" },
+        // \u00a0 keeps the separator dot off the head of a wrapped line.
+        audience: { key: "Para", value: "Pymes y equipos de operaciones\u00a0· Colombia y LatAm" },
+        replies: { key: "Responde", value: "Samuel Pérez Serna, fundador" },
+      },
+      shotLink: "Ver el caso",
+    },
+    services: {
+      title: "Servicios",
+      statement: "Lo que construimos, y el trabajo que lo prueba.",
+      proof: "Lo prueba",
+      cases: { one: "caso", other: "casos" },
+      repos: { one: "repositorio", other: "repositorios" },
     },
     work: {
       title: "Proyectos",
-      intro: "Cuatro trabajos recientes, con capturas reales y no maquetas. En cada uno, el problema del negocio, lo que construí y en qué quedó.",
+      statement: "Trabajos con capturas reales, no maquetas.",
+      cases: { one: "caso", other: "casos" },
+      countSuffix: "capturas reales",
       labels: {
         client: "Cliente",
         sector: "Sector",
         kind: "Tipo",
+        status: "Estado",
         stack: "Stack",
-        built: "Lo que construí",
+        year: "Año",
+        built: "Lo que construimos",
         result: "En qué quedó",
         code: "Ver el código",
         demo: "Ver en vivo",
       },
+      statusValues: {
+        live: "En uso",
+        published: "Publicado",
+        development: "En desarrollo",
+      },
     },
     more: {
       title: "Más trabajo",
-      intro: "Todo lo demás que está en GitHub: productos propios, trabajo en equipo, ejercicios y experimentos.",
-      groups: {
-        work: "Productos y herramientas",
-        lab: "Ejercicios, experimentos y proyectos académicos",
+      statement: "Productos propios, trabajo en equipo y herramientas que usamos.",
+      repos: { one: "repositorio", other: "repositorios" },
+      source: "GitHub",
+      kinds: {
+        product: "Producto propio",
+        team: "Trabajo en equipo",
+        tool: "Herramienta",
+        experiment: "Prueba técnica",
       },
       live: "Probarlo",
       code: "Código",
     },
+    testimonials: {
+      title: "Testimonios",
+      statement: "Lo que dirán los clientes.",
+      intro:
+        "Estamos recogiendo las palabras de quienes ya usan herramientas nuestras. Mientras llegan, los resultados están en cada proyecto de arriba.",
+      pending: "Pendiente",
+      received: "Recibidos",
+      slot: "Reservado",
+      who: "Quién",
+      company: "Empresa",
+      said: "Dijo",
+      counter: "de",
+      slotAria: "Testimonio reservado {i} de {n}",
+    },
     about: {
-      title: "Sobre mí",
-      p1: "Soy técnico profesional en programación de sistemas de información del Politécnico Colombiano Jaime Isaza Cadavid, y vivo en Envigado. Empecé con Java y SQL en proyectos académicos; hoy trabajo sobre todo con Python y Django, y cada vez más con Node, TypeScript y modelos de lenguaje.",
-      p2: "Me gusta el trabajo donde el dato viene sucio y el problema es del negocio, no del framework: entender cómo opera una flota, un consultorio o un comercio, y devolverles una herramienta que usen todos los días.",
-      now: "Ahora mismo: un CRM omnicanal y un agente de ventas por WhatsApp.",
+      title: "Nosotros",
+      statement: "Hoy UNP es una persona; el plan es un equipo.",
+      founderLabel: "Fundador",
+      seatLabel: "Sede",
+      seat: "Envigado, Antioquia",
+      photoAlt: "Samuel Pérez Serna, fundador de UNP Software",
+      p1: "UNP Software es una empresa de desarrollo de software en Envigado, Antioquia, fundada por Samuel Pérez Serna, técnico profesional en programación del Politécnico Colombiano Jaime Isaza Cadavid. Nos gusta el trabajo donde el dato viene sucio y el problema es del negocio, no del framework: entender cómo opera una flota, un consultorio o un comercio, y devolverles una herramienta que usen todos los días.",
+      noteLabel: "Nota del fundador",
+      founderNote:
+        "Hoy UNP es una persona: yo. Respondo el WhatsApp, escribo el código y hago la entrega. El plan es un equipo, y se está armando con los proyectos que van llegando.",
+      nowLabel: "Ahora mismo",
+      now: "Un CRM omnicanal y un agente de ventas por WhatsApp.",
       stack: {
         backend: "Backend",
         data: "Datos",
         frontend: "Frontend",
-        tools: "Herramientas",
+        // Soft hyphen: the 5.5rem mobile key breaks it HERRA-/MIENTAS; one word elsewhere.
+        tools: "Herra\u00admientas",
       },
     },
     contact: {
-      title: "¿Tu negocio necesita software?",
-      intro: "Cuéntame qué te está costando trabajo y te digo cómo lo resolvería. Respondo por WhatsApp o por correo, en español o en inglés.",
+      title: "Contacto",
+      statement: "¿Tu negocio necesita software?",
+      lead: "Cuéntanos qué te está costando trabajo y te decimos cómo lo resolveríamos. Respondemos por WhatsApp o por correo, en español o en inglés.",
       whatsapp: "Escribir por WhatsApp",
       email: "Enviar un correo",
-      note: "Este número es solamente para proyectos nuevos.",
+      note: "Solo para proyectos nuevos y colaboraciones.",
+      whatsappLabel: "WhatsApp",
       emailLabel: "Correo",
-      whatsappMessage: "¡Hola Samuel! Vi tu portafolio y me gustaría hablar contigo.",
+      githubLabel: "GitHub",
+      linkedinLabel: "LinkedIn",
+      previewLabel: "Mensaje que se enviará",
+      previewHelp: "Se abre en WhatsApp; puedes editarlo antes de enviar.",
+      whatsappMessage: "¡Hola! Vi el sitio de UNP Software y me gustaría hablar sobre un proyecto.",
+      hook: {
+        title: "Trabaja con nosotros",
+        text: "¿Desarrollas y quieres sumarte a proyectos reales? Escríbenos con un enlace a tu trabajo.",
+        cta: "Enviar un enlace a tu trabajo",
+        subject: "Trabajar con UNP Software",
+      },
     },
     footer: {
+      founded: "Fundada por Samuel Pérez Serna",
       location: "Envigado, Antioquia, Colombia",
       backToTop: "Volver arriba",
     },
   },
   en: {
+    meta: {
+      title: "UNP Software — Custom software from Envigado, Colombia",
+      description:
+        "Websites, data dashboards, CRMs and WhatsApp agents already at work in real businesses. UNP Software, Envigado, Colombia.",
+    },
     nav: {
+      services: "Services",
       projects: "Projects",
       about: "About",
       contact: "Contact",
       menu: "Menu",
+      close: "Close the menu",
       language: "Switch to Spanish",
       theme: "Toggle theme",
+      themeLight: "Switch to light theme",
+      themeDark: "Switch to dark theme",
+      skip: "Skip to content",
+      home: "Go to top",
+      whatsapp: "WhatsApp",
+      whatsappLong: "Message on WhatsApp",
     },
     hero: {
-      eyebrow: "Envigado, Colombia · Software developer",
-      headline: "Software that is already at work in real businesses.",
-      sub: "I'm Samuel Pérez Serna. With Python and Django I build the tools a business needs and doesn't have: data dashboards, websites, CRMs and WhatsApp agents.",
-      ctaPrimary: "See the projects",
-      ctaSecondary: "Message on WhatsApp",
-      photoAlt: "Samuel Pérez Serna",
-      photoCaption: "Samuel Pérez Serna · Envigado, Antioquia",
+      headline: "Custom software for businesses that are already running.",
+      lead: "Data dashboards, CRMs, WhatsApp agents and integrations for small and mid-size businesses in Colombia and LatAm. We build it and leave it running.",
+      ctaPrimary: "Message on WhatsApp",
+      ctaSecondary: "See the projects",
+      facts: {
+        seat: { key: "Based in", value: "Envigado, Antioquia · UTC−5" },
+        // \u00a0 keeps the separator dot off the head of a wrapped line.
+        audience: { key: "For", value: "SMBs and operations teams\u00a0· Colombia and LatAm" },
+        replies: { key: "Answered by", value: "Samuel Pérez Serna, founder" },
+      },
+      shotLink: "See the case",
+    },
+    services: {
+      title: "Services",
+      statement: "What we build, and the work that proves it.",
+      proof: "Proof",
+      cases: { one: "case", other: "cases" },
+      repos: { one: "repository", other: "repositories" },
     },
     work: {
       title: "Projects",
-      intro: "Four recent pieces of work, with real screenshots rather than mockups. For each one: the business problem, what I built and where it stands.",
+      statement: "Work with real screenshots, not mockups.",
+      cases: { one: "case", other: "cases" },
+      countSuffix: "real screenshots",
       labels: {
         client: "Client",
         sector: "Sector",
         kind: "Type",
+        status: "Status",
         stack: "Stack",
-        built: "What I built",
+        year: "Year",
+        built: "What we built",
         result: "Where it stands",
         code: "View the code",
         demo: "See it live",
       },
+      statusValues: {
+        live: "In use",
+        published: "Published",
+        development: "In development",
+      },
     },
     more: {
       title: "More work",
-      intro: "Everything else on GitHub: own products, team work, exercises and experiments.",
-      groups: {
-        work: "Products and tools",
-        lab: "Exercises, experiments and academic projects",
+      statement: "Own products, team work and tools we use.",
+      repos: { one: "repository", other: "repositories" },
+      source: "GitHub",
+      kinds: {
+        product: "Own product",
+        team: "Team work",
+        tool: "Tool",
+        experiment: "Technical test",
       },
       live: "Try it",
       code: "Code",
     },
+    testimonials: {
+      title: "Testimonials",
+      statement: "What clients will say.",
+      intro:
+        "We're gathering quotes from people who already use our tools. Until they arrive, the results are in every project above.",
+      pending: "Pending",
+      received: "Received",
+      slot: "Reserved",
+      who: "Who",
+      company: "Company",
+      said: "Said",
+      counter: "of",
+      slotAria: "Reserved testimonial {i} of {n}",
+    },
     about: {
-      title: "About me",
-      p1: "I'm a professional technician in information systems programming from the Politécnico Colombiano Jaime Isaza Cadavid, based in Envigado. I started with Java and SQL on academic projects; today I work mostly with Python and Django, and increasingly with Node, TypeScript and language models.",
-      p2: "I like the work where the data comes in dirty and the problem belongs to the business, not the framework: understanding how a fleet, a clinic or a shop operates, and handing back a tool they use every day.",
-      now: "Right now: an omnichannel CRM and a WhatsApp sales agent.",
+      title: "About",
+      statement: "Today UNP is one person; the plan is a team.",
+      founderLabel: "Founder",
+      seatLabel: "Based in",
+      seat: "Envigado, Antioquia",
+      photoAlt: "Samuel Pérez Serna, founder of UNP Software",
+      p1: "UNP Software is a software development company in Envigado, Antioquia, founded by Samuel Pérez Serna, who trained as a programmer at the Politécnico Colombiano Jaime Isaza Cadavid. We like the work where the data comes in dirty and the problem belongs to the business, not the framework: understanding how a fleet, a clinic or a shop operates, and handing back a tool they use every day.",
+      noteLabel: "Founder's note",
+      founderNote:
+        "Today UNP is one person: me. I'm the one on WhatsApp, I write the code and I ship the work. The plan is a team, and it's taking shape with the projects that keep coming in.",
+      nowLabel: "Right now",
+      now: "An omnichannel CRM and a WhatsApp sales agent.",
       stack: {
         backend: "Backend",
         data: "Data",
@@ -691,23 +791,46 @@ export const CONTENT = {
       },
     },
     contact: {
-      title: "Does your business need software?",
-      intro: "Tell me what's costing you time and I'll tell you how I'd solve it. I reply on WhatsApp or by email, in Spanish or English.",
+      title: "Contact",
+      statement: "Does your business need software?",
+      lead: "Tell us what's costing you time and we'll tell you how we'd solve it. We reply on WhatsApp or by email, in Spanish or English.",
       whatsapp: "Message on WhatsApp",
       email: "Send an email",
-      note: "This number is for new projects only.",
+      note: "New projects and collaborations only.",
+      whatsappLabel: "WhatsApp",
       emailLabel: "Email",
-      whatsappMessage: "Hi Samuel! I saw your portfolio and I'd like to talk with you.",
+      githubLabel: "GitHub",
+      linkedinLabel: "LinkedIn",
+      previewLabel: "Message that will be sent",
+      previewHelp: "Opens in WhatsApp; you can edit it before sending.",
+      whatsappMessage: "Hi! I saw the UNP Software site and I'd like to talk about a project.",
+      hook: {
+        title: "Work with us",
+        text: "Do you build software and want in on real projects? Email us with a link to your work.",
+        cta: "Send a link to your work",
+        subject: "Working with UNP Software",
+      },
     },
     footer: {
+      founded: "Founded by Samuel Pérez Serna",
       location: "Envigado, Antioquia, Colombia",
       backToTop: "Back to top",
     },
   },
 } as const;
 
+/** "1 caso" / "2 casos" from a {one, other} pair. */
+export function plural(n: number, forms: { one: string; other: string }): string {
+  return `${n} ${n === 1 ? forms.one : forms.other}`;
+}
+
 export function whatsappUrl(lang: Lang): string {
   const message = CONTENT[lang].contact.whatsappMessage;
-  const separator = PROFILE.whatsappLink.includes("?") ? "&" : "?";
-  return `${PROFILE.whatsappLink}${separator}text=${encodeURIComponent(message)}`;
+  const separator = BRAND.whatsappLink.includes("?") ? "&" : "?";
+  return `${BRAND.whatsappLink}${separator}text=${encodeURIComponent(message)}`;
+}
+
+export function workWithUsUrl(lang: Lang): string {
+  const subject = CONTENT[lang].contact.hook.subject;
+  return `mailto:${BRAND.email}?subject=${encodeURIComponent(subject)}`;
 }

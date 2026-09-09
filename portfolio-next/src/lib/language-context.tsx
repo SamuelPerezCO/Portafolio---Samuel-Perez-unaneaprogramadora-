@@ -24,9 +24,9 @@ function readStored(): Lang | null {
 }
 
 function getSnapshot(): Lang {
-  const stored = readStored();
-  if (stored) return stored;
-  return navigator.language.toLowerCase().startsWith("en") ? "en" : "es";
+  // First render must agree with getServerSnapshot() and <html lang="es">: Spanish is the
+  // client's default; the ES/EN chip is the only way to switch (the choice is persisted).
+  return readStored() ?? "es";
 }
 
 function getServerSnapshot(): Lang {

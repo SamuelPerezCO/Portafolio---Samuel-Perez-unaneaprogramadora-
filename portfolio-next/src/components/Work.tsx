@@ -1,109 +1,165 @@
 "use client";
 
+import { Fragment } from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
-import { CASE_STUDIES } from "@/lib/content";
+import { CASE_STUDIES, plural, type CaseStudy } from "@/lib/content";
+import { Section } from "./Section";
+import { Glyph } from "./Glyph";
 import { GithubIcon } from "./icons";
+
+const SHOT_SIZES = "(min-width:1024px) 879px, 100vw";
+
+/**
+ * Identification for one case: CLIENTE / SECTOR / TIPO / ESTADO / STACK / AÑO.
+ * On desktop it lives in the label column as a `.ficha-l` (keys over values, no
+ * rules, sticky beside the case). Below 1024 the same rows render as a regular
+ * `.ficha` (key | rule | value) inside the article, between the shots and the
+ * problem, so the reading order is h3 → shots → ficha → lead as specified.
+ */
+function CaseFicha({ cs, className }: { cs: CaseStudy; className: string }) {
+  const { lang, t } = useLanguage();
+  const c = cs[lang];
+  const L = t.work.labels;
+  const live = cs.status !== "development";
+
+  return (
+    <dl className={className}>
+      <div>
+        <dt>{L.client}</dt>
+        <dd>{c.client}</dd>
+      </div>
+      <div>
+        <dt>{L.sector}</dt>
+        <dd>{c.sector}</dd>
+      </div>
+      <div>
+        <dt>{L.kind}</dt>
+        <dd>{c.kind}</dd>
+      </div>
+      <div>
+        <dt>{L.status}</dt>
+        <dd>
+          <span className="inline-flex items-center gap-1">
+            <Glyph on={live} />
+            {t.work.statusValues[cs.status]}
+          </span>
+        </dd>
+      </div>
+      <div>
+        <dt>{L.stack}</dt>
+        <dd>{cs.stack.join(" · ")}</dd>
+      </div>
+      <div>
+        <dt>{L.year}</dt>
+        <dd>{cs.year}</dd>
+      </div>
+    </dl>
+  );
+}
 
 export function Work() {
   const { lang, t } = useLanguage();
   const L = t.work.labels;
 
   return (
-    <section id="proyectos" className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10 md:py-28">
-        <div className="grid gap-6 md:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] md:items-end">
-          <h2 className="display-tight text-4xl font-bold text-ink md:text-5xl">{t.work.title}</h2>
-          <p className="max-w-[36rem] text-lg text-ink-2 md:justify-self-end">{t.work.intro}</p>
-        </div>
+    <Section id="proyectos">
+      <div className="lc">
+        <h2 className="sec-name">{t.work.title}</h2>
+        <p className="value mt-2">
+          {plural(CASE_STUDIES.length, t.work.cases)} · {t.work.countSuffix}
+        </p>
+      </div>
+      <div className="cc pb-6">
+        <p className="statement mt-6 lg:mt-0">{t.work.statement}</p>
+      </div>
 
-        <div className="mt-14 space-y-24 md:mt-20 md:space-y-32">
-          {CASE_STUDIES.map((cs) => {
-            const c = cs[lang];
-            return (
-              <article key={cs.slug} id={cs.slug} className="scroll-mt-24">
-                <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-ink pt-4">
-                  <p className="label text-ink">{c.kicker}</p>
-                  <p className="label">{cs.year}</p>
-                </header>
+      {CASE_STUDIES.map((cs, i) => {
+        const c = cs[lang];
+        const first = i === 0;
+        const hasLinks = Boolean(cs.repo || cs.demo);
 
-                <h3 className="display-tight mt-4 max-w-[22ch] text-3xl font-semibold leading-[1.05] text-ink md:text-[2.75rem]">
-                  {c.title}
-                </h3>
+        return (
+          <Fragment key={cs.slug}>
+            {/* Label column (desktop only): sticky identification beside the case. */}
+            <div className={`lc hidden lg:block ${first ? "lg:pt-6" : "lg:pt-24"}`}>
+              <CaseFicha cs={cs} className="ficha ficha-l sticky-l" />
+            </div>
+
+            {/* Content column. The article is the padded grid cell, so the hairline lives on
+                an inner wrapper: it starts after the rule→content gap and never touches the
+                spine. Cases sit 64/96px apart behind it; the first case sits 24px under the
+                statement like every other section. The paddings mirror the label cell's so
+                the sticky ficha stays level with the h3. */}
+            <article id={cs.slug} className="cc">
+              <div className={first ? "pt-6" : "border-t border-line pt-16 lg:pt-24"}>
+                <h3 className="h3">{c.title}</h3>
 
                 {cs.image && (
-                  <figure className="mt-8 md:mt-10">
+                  <figure className="mt-4">
                     <div className="shot">
                       <Image
                         src={cs.image.src}
                         alt={c.imageAlt}
                         width={cs.image.width}
                         height={cs.image.height}
-                        sizes="(min-width: 1280px) 1120px, 100vw"
+                        sizes={SHOT_SIZES}
                       />
                     </div>
-                    <figcaption className="mt-3 text-sm italic text-ink-2">{c.caption}</figcaption>
+                    <figcaption className="caption mt-3">{c.caption}</figcaption>
                   </figure>
                 )}
 
-                <div className="mt-10 grid gap-10 md:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] md:gap-16">
-                  <dl className="ficha self-start">
-                    <div>
-                      <dt>{L.client}</dt>
-                      <dd>{c.client}</dd>
+                {cs.image2 && (
+                  <figure className="mt-4">
+                    <div className="shot">
+                      <Image
+                        src={cs.image2.src}
+                        alt={c.image2Alt ?? c.caption2 ?? ""}
+                        width={cs.image2.width}
+                        height={cs.image2.height}
+                        sizes={SHOT_SIZES}
+                      />
                     </div>
-                    <div>
-                      <dt>{L.sector}</dt>
-                      <dd>{c.sector}</dd>
-                    </div>
-                    <div>
-                      <dt>{L.kind}</dt>
-                      <dd>{c.kind}</dd>
-                    </div>
-                    <div>
-                      <dt>{L.stack}</dt>
-                      <dd>{cs.stack.join(" · ")}</dd>
-                    </div>
-                  </dl>
+                    {c.caption2 && <figcaption className="caption mt-3">{c.caption2}</figcaption>}
+                  </figure>
+                )}
 
-                  <div className="max-w-[40rem]">
-                    <p className="text-[1.15rem] leading-relaxed text-ink">{c.problem}</p>
+                {/* Below 1024 the ficha reads here, between the shots and the problem. */}
+                <CaseFicha cs={cs} className="ficha mt-8 lg:hidden" />
 
-                    <p className="label mt-9">{L.built}</p>
-                    <ul className="mt-3 space-y-3">
-                      {c.built.map((item) => (
-                        <li key={item} className="flex gap-3">
-                          <span aria-hidden className="mt-[0.72em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                <p className="lead mt-8">{c.problem}</p>
 
-                    <p className="label mt-9">{L.result}</p>
-                    <p className="mt-3 font-semibold text-ink">{c.result}</p>
+                <p className="label mt-8">{L.built}</p>
+                <ul className="rows prose mt-2 list-none" role="list">
+                  {c.built.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
 
-                    {(cs.repo || cs.demo) && (
-                      <div className="mt-8 flex flex-wrap gap-6">
-                        {cs.repo && (
-                          <a href={cs.repo} target="_blank" rel="noreferrer" className="link text-ink">
-                            <GithubIcon size={15} /> {L.code}
-                          </a>
-                        )}
-                        {cs.demo && (
-                          <a href={cs.demo} target="_blank" rel="noreferrer" className="link text-ink">
-                            <ArrowUpRight size={15} /> {L.demo}
-                          </a>
-                        )}
-                      </div>
+                <p className="label mt-8">{L.result}</p>
+                <p className="result prose mt-2">{c.result}</p>
+
+                {hasLinks && (
+                  <div className="mt-6 flex flex-wrap gap-6">
+                    {cs.repo && (
+                      <a href={cs.repo} target="_blank" rel="noreferrer" className="link min-h-11">
+                        <GithubIcon size={15} /> {L.code}
+                      </a>
+                    )}
+                    {cs.demo && (
+                      <a href={cs.demo} target="_blank" rel="noreferrer" className="link min-h-11">
+                        <ArrowUpRight size={15} /> {L.demo}
+                      </a>
                     )}
                   </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+                )}
+              </div>
+            </article>
+          </Fragment>
+        );
+      })}
+    </Section>
   );
 }

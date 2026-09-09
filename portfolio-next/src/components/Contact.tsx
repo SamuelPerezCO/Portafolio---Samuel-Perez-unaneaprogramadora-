@@ -1,66 +1,124 @@
 "use client";
 
-import { Mail, MessageCircle } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
-import { PROFILE, whatsappUrl } from "@/lib/content";
+import { BRAND, FOUNDER, whatsappUrl, workWithUsUrl } from "@/lib/content";
+import { Section } from "@/components/Section";
+import { Glyph } from "@/components/Glyph";
+import { WhatsappIcon } from "@/components/icons";
 
+type Fact = {
+  key: string;
+  href: string;
+  text: string;
+  /** Opens in a new tab (WhatsApp, GitHub, LinkedIn). */
+  external?: boolean;
+  /** Small note printed under the value. */
+  note?: string;
+  /** Never break mid-word: the label column is wide enough to hold the address. */
+  noBreak?: boolean;
+};
+
+function FactLink({ fact }: { fact: Fact }) {
+  return fact.external ? (
+    <a href={fact.href} target="_blank" rel="noreferrer">
+      {fact.text}
+    </a>
+  ) : (
+    <a href={fact.href}>{fact.text}</a>
+  );
+}
+
+/**
+ * Contacto — the label column carries the facts (WhatsApp, email, GitHub,
+ * LinkedIn); the content column carries the question, the two buttons, the
+ * preview of the message WhatsApp will open with, and the hiring hook.
+ * Below 1024 the facts render as a .ficha under the preview panel, so they
+ * are rendered twice (desktop-only in .lc, mobile-only in .cc), like the hero.
+ */
 export function Contact() {
   const { lang, t } = useLanguage();
+  const c = t.contact;
+
+  const facts: Fact[] = [
+    { key: c.whatsappLabel, href: BRAND.whatsappLink, text: BRAND.phoneDisplay, external: true, note: c.note },
+    { key: c.emailLabel, href: `mailto:${BRAND.email}`, text: BRAND.email, noBreak: true },
+    { key: c.githubLabel, href: BRAND.github, text: BRAND.githubUser, external: true },
+    { key: c.linkedinLabel, href: FOUNDER.linkedin, text: FOUNDER.linkedinUser, external: true },
+  ];
 
   return (
-    <section id="contacto" className="scroll-mt-20 border-t border-line">
-      <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10 md:py-28">
-        <div className="grid gap-12 md:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] md:items-end md:gap-20">
-          <div>
-            <h2 className="display-tight max-w-[16ch] text-4xl font-bold leading-[1.02] text-ink md:text-[3.5rem]">
-              {t.contact.title}
-            </h2>
-            <p className="mt-6 max-w-[34rem] text-lg text-ink-2">{t.contact.intro}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a href={whatsappUrl(lang)} target="_blank" rel="noreferrer" className="btn btn-primary">
-                <MessageCircle size={16} /> {t.contact.whatsapp}
+    <Section id="contacto">
+      <div className="lc">
+        <h2 className="sec-name">{c.title}</h2>
+
+        {/* Desktop facts: label over value, 32px apart, no rules (the spine is the rule). */}
+        <dl className="mt-6 hidden lg:block">
+          {facts.map((fact, i) => (
+            <div key={fact.key} className={i > 0 ? "mt-8" : undefined}>
+              <dt className="label">{fact.key}</dt>
+              <dd className="value mt-2" style={fact.noBreak ? { overflowWrap: "normal" } : undefined}>
+                <FactLink fact={fact} />
+                {fact.note && <p className="small mt-1">{fact.note}</p>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div className="cc">
+        <div className="grid gap-6 lg:grid-cols-12">
+          <div className="mt-6 lg:col-span-7 lg:mt-0">
+            <p className="statement" style={{ maxWidth: "16ch" }}>
+              {c.statement}
+            </p>
+            <p className="lead mt-6">{c.lead}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a className="btn btn-primary" href={whatsappUrl(lang)} target="_blank" rel="noreferrer">
+                <WhatsappIcon size={16} />
+                {c.whatsapp}
               </a>
-              <a href={`mailto:${PROFILE.email}`} className="btn btn-secondary">
-                <Mail size={16} /> {t.contact.email}
+              <a className="btn btn-secondary" href={`mailto:${BRAND.email}`}>
+                <Mail size={16} />
+                {c.email}
               </a>
             </div>
           </div>
 
-          <dl className="ficha self-end">
-            <div>
-              <dt>WhatsApp</dt>
-              <dd>
-                <a href={PROFILE.whatsappLink} target="_blank" rel="noreferrer">
-                  {PROFILE.phoneDisplay}
-                </a>
-                <span className="mt-1 block text-sm text-ink-2">{t.contact.note}</span>
+          <div className="self-start lg:col-span-5">
+            <div className="preview">
+              <p className="label">{c.previewLabel}</p>
+              <p className="prose mt-3">{c.whatsappMessage}</p>
+              <p className="small mt-3">{c.previewHelp}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile facts: key | rule | value, under the preview. */}
+        <dl className="ficha mt-8 lg:hidden">
+          {facts.map((fact) => (
+            <div key={fact.key}>
+              <dt>{fact.key}</dt>
+              <dd style={fact.noBreak ? { overflowWrap: "normal" } : undefined}>
+                <FactLink fact={fact} />
+                {fact.note && <p className="small mt-1">{fact.note}</p>}
               </dd>
             </div>
-            <div>
-              <dt>{t.contact.emailLabel}</dt>
-              <dd>
-                <a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
-              </dd>
-            </div>
-            <div>
-              <dt>GitHub</dt>
-              <dd>
-                <a href={PROFILE.github} target="_blank" rel="noreferrer">
-                  {PROFILE.githubUser}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt>LinkedIn</dt>
-              <dd>
-                <a href={PROFILE.linkedin} target="_blank" rel="noreferrer">
-                  {PROFILE.linkedinUser}
-                </a>
-              </dd>
-            </div>
-          </dl>
+          ))}
+        </dl>
+
+        {/* Hook: a full-width row under a hairline. */}
+        <div className="mt-8 border-t border-line pt-8">
+          <p className="label inline-flex items-center gap-1">
+            <Glyph on={false} />
+            <span>{c.hook.title}</span>
+          </p>
+          <p className="prose mt-2">{c.hook.text}</p>
+          <a className="link mt-3" href={workWithUsUrl(lang)}>
+            {c.hook.cta} <ArrowRight size={15} />
+          </a>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

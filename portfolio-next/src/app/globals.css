@@ -1,38 +1,75 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Tokens. Light is the designed default: cool sage paper, deep ink,
-   one emerald accent (Antioquia's flag, the esmeralda, WhatsApp).
+   UNP Software — tokens.
+   Dark is the designed default: the logo's own navy field, sampled from
+   the logo file (#020e22 edge · #0d2645 centre · #133151 lightest).
+   Light is the brand printed on navy-tinted paper, not an inversion.
+   The palette is the navy family plus white; nothing chromatic.
    ------------------------------------------------------------------ */
 :root {
-  --paper: #edf0ea;
-  --card: #ffffff;
-  --ink: #121a16;
-  --ink-2: #56635c;
-  --line: #cfd6d0;
-  --line-strong: #a9b5ad;
-  --accent: #0b7a55;
+  --ground: #f3f6fb;
+  --surface: #ffffff;
+  --surface-2: #e6ecf5;
+  --ink: #071a34;
+  --ink-2: #4a5d7a;
+  --line: #c9d5e6;
+  --line-strong: #5a6f92;
+  --accent: #0d2645;
   --accent-ink: #ffffff;
-  --accent-soft: #d7efe3;
-  --shadow: 0 1px 2px rgba(18, 26, 22, 0.06), 0 18px 44px -18px rgba(18, 26, 22, 0.28);
+  --accent-soft: #e4eaf3;
+  --shadow: 0 1px 2px rgba(7, 26, 52, 0.06), 0 12px 32px -16px rgba(7, 26, 52, 0.18);
+  /* Plate hover: the logo's lightest navy on paper; on navy, the white plate
+     dimmed by 6% (what brightness(0.94) yields on #f9fcff). */
+  --accent-hover: #133151;
+  --body-weight: 400;
+
+  /* Layout: the lockup's proportions. --label-w is the identification
+     column; --gap-l/--gap-r are the mark→rule and rule→wordmark gaps. */
+  --pad: 16px;
+  --label-w: 8px;
+  --gap-l: 24px;
+  --gap-r: 12px;
+  --sec-pad: 64px;
+  --ficha-key: 5.5rem;
 }
 
 :root[data-theme="dark"] {
-  --paper: #0e1512;
-  --card: #151e19;
-  --ink: #eaf0ec;
-  --ink-2: #93a39a;
-  --line: #26332c;
-  --line-strong: #3b4c43;
-  --accent: #3fcb93;
-  --accent-ink: #0b1a13;
-  --accent-soft: #163526;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 18px 44px -18px rgba(0, 0, 0, 0.7);
+  --ground: #061630;
+  --surface: #0d2645;
+  --surface-2: #133151;
+  --ink: #eef3fa;
+  --ink-2: #a7b7cc;
+  --line: #22405f;
+  --line-strong: #7f95b3;
+  --accent: #f9fcff;
+  --accent-ink: #061630;
+  --accent-soft: #142a4b;
+  --accent-hover: #eaedf0;
+  --shadow: none;
+  --body-weight: 500;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --pad: 32px;
+    --ficha-key: 9rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --pad: 48px;
+    --label-w: 12rem;
+    --gap-r: 32px;
+    --sec-pad: 96px;
+  }
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-card: var(--card);
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-line: var(--line);
@@ -40,10 +77,13 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
-  --font-display: var(--font-bricolage), system-ui, sans-serif;
-  --font-serif: var(--font-source-serif), Georgia, serif;
+  --font-display: var(--font-geologica), system-ui, sans-serif;
+  --font-body: var(--font-alegreya), "Segoe UI", system-ui, sans-serif;
 }
 
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
 * {
   border-color: var(--line);
 }
@@ -53,20 +93,32 @@ html {
 }
 
 body {
-  background: var(--paper);
+  background: var(--ground);
   color: var(--ink);
-  font-family: var(--font-source-serif), Georgia, serif;
-  font-size: 17px;
-  line-height: 1.55;
+  font-family: var(--font-alegreya), "Segoe UI", system-ui, sans-serif;
+  font-weight: var(--body-weight);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-variant-numeric: lining-nums tabular-nums;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+:root[data-theme="dark"] body {
+  -webkit-font-smoothing: auto;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 1.125rem;
+  }
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
+  font-family: var(--font-geologica), system-ui, sans-serif;
 }
 
 ::selection {
@@ -80,107 +132,372 @@ h4 {
   border-radius: 2px;
 }
 
-/* Display type: a touch condensed, large optical size, tight tracking. */
-.display-tight {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-variation-settings: "wdth" 88, "opsz" 96;
-  letter-spacing: -0.03em;
+.sec-wrap[id],
+article[id] {
+  scroll-margin-top: 5rem;
 }
 
-/* Labels: the only uppercase on the page, reserved for structure. */
-.label {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-size: 0.75rem;
+/* ------------------------------------------------------------------
+   Type. Geologica carries the mark's cut through the SHRP axis:
+   50 on h1/statement, 25 on h3/h4, 0 on labels and the section names.
+   Uppercase exists only in .label and .sec-name.
+   ------------------------------------------------------------------ */
+.h1 {
+  font-family: var(--font-geologica), system-ui, sans-serif;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 2.25rem;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-variation-settings: "SHRP" 50;
+  max-width: 16ch;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.statement {
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  font-variation-settings: "SHRP" 50;
+  max-width: 22ch;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* Testimonios uses the h3 scale for its statement on purpose. */
+.statement-sm {
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variation-settings: "SHRP" 50;
+  max-width: 22ch;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.h3 {
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-variation-settings: "SHRP" 25;
+  max-width: 22ch;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.h4 {
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  font-variation-settings: "SHRP" 25;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* One label style: section names, .label and every ficha key share it. */
+.sec-name,
+.label,
+.ficha dt {
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  font-variation-settings: "SHRP" 0;
+}
+
+.sec-name {
+  color: var(--ink);
+}
+
+.label {
   color: var(--ink-2);
 }
 
-/* Spec-sheet rows (ficha técnica). */
+.value {
+  font-family: var(--font-alegreya), "Segoe UI", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.lead {
+  font-size: 1.125rem;
+  line-height: 1.55;
+  max-width: 36rem;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.prose {
+  max-width: 40rem;
+}
+
+.result {
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.small {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.caption {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--ink-2);
+  max-width: 60ch;
+}
+
+@media (min-width: 1024px) {
+  .h1 {
+    font-size: 4rem;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+  }
+
+  .statement {
+    font-size: 2.5rem;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+  }
+
+  .statement-sm,
+  .h3 {
+    font-size: 1.75rem;
+    line-height: 1.15;
+  }
+
+  .h4 {
+    font-size: 1.25rem;
+  }
+
+  .sec-name,
+  .label,
+  .ficha dt {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .lead {
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+}
+
+/* ------------------------------------------------------------------
+   La regla — the page grid.
+   Every section is .sec-wrap > .shell > .spine + .sec. The spine is
+   positioned at the same x in every section and sections have no margin,
+   so the segments abut and read as one 1px rule from nav to footer.
+   Left of it (.lc): identification. Right of it (.cc): content.
+   ------------------------------------------------------------------ */
+.sec-wrap {
+  position: relative;
+  padding-top: var(--sec-pad-top, var(--sec-pad));
+  padding-bottom: var(--sec-pad-bottom, var(--sec-pad));
+}
+
+.shell {
+  position: relative;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+.spine {
+  position: absolute;
+  top: calc(-1 * var(--sec-pad-top, var(--sec-pad)));
+  bottom: calc(-1 * var(--sec-pad-bottom, var(--sec-pad)));
+  left: calc(var(--pad) + var(--label-w));
+  width: 1px;
+  background: var(--line-strong);
+  pointer-events: none;
+}
+
+.sec {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding-left: calc(var(--label-w) + 1px + var(--gap-r));
+}
+
+.lc,
+.cc {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .sec {
+    grid-template-columns: var(--label-w) minmax(0, 1fr);
+    padding-left: 0;
+  }
+
+  .lc {
+    padding-right: var(--gap-l);
+  }
+
+  .cc {
+    padding-left: calc(1px + var(--gap-r));
+  }
+}
+
+/* Section rhythm variants. */
+.sec-hero {
+  --sec-pad-top: 96px;
+  --sec-pad-bottom: 64px;
+}
+
+.sec-tight {
+  --sec-pad: 48px;
+}
+
+@media (min-width: 1024px) {
+  .sec-hero {
+    --sec-pad-top: 128px;
+    --sec-pad-bottom: 96px;
+  }
+
+  .sec-tight {
+    --sec-pad: 64px;
+  }
+}
+
+/* The hero paints the logo's own field, dark theme only. One static layer. */
+:root[data-theme="dark"] .hero-field {
+  background: radial-gradient(ellipse 90% 70% at 50% 35%, #133151 0%, #0d2645 45%, #061630 100%);
+}
+
+/* Identification stays beside long content, only where there is room. */
+@media (min-width: 1024px) and (min-height: 700px) {
+  .sticky-l {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Ficha — key | rule | value. The rule between key and value is the
+   logo's rule again, in --line-strong; hairlines between rows in --line.
+   ------------------------------------------------------------------ */
 .ficha > div {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr);
-  gap: 1rem;
-  padding: 0.7rem 0;
+  grid-template-columns: var(--ficha-key) minmax(0, 1fr);
+}
+
+.ficha > div + div {
   border-top: 1px solid var(--line);
 }
 
-.ficha > div:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
+/* Keys take the label type from the shared rule above; the 15px top padding
+   centres the 12/13px cap line on the value's first line. */
 .ficha dt {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  padding: 15px 12px 12px 0;
+  align-self: start;
   color: var(--ink-2);
-  padding-top: 0.2rem;
 }
 
 .ficha dd {
-  font-size: 1rem;
-  line-height: 1.5;
+  padding: 12px 0 12px 12px;
+  border-left: 1px solid var(--line-strong);
 }
 
-.ficha dd a {
+.ficha dd {
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* Label-column ficha: on desktop the keys stack over their values with no
+   rules (the spine is the rule); below 1024 it is a regular .ficha. */
+@media (min-width: 1024px) {
+  .ficha-l > div {
+    display: block;
+  }
+
+  .ficha-l > div + div {
+    border-top: 0;
+    margin-top: 32px;
+  }
+
+  .ficha-l dt {
+    padding: 0;
+  }
+
+  .ficha-l dd {
+    padding: 8px 0 0;
+    border-left: 0;
+  }
+}
+
+/* Phone, email, GitHub, LinkedIn and the founder link: a 44px tap box on a
+   15px line. The padding grows the target; the negative margin hands the
+   space back, so the line box and the note under WHATSAPP do not move. */
+.ficha dd a,
+.value a {
+  display: inline-block;
+  padding-block: 11px;
+  margin-block: -11px;
   text-decoration: underline;
   text-decoration-color: var(--line-strong);
   text-underline-offset: 4px;
   transition: text-decoration-color 0.15s ease;
 }
 
-.ficha dd a:hover {
+.ficha dd a:hover,
+.value a:hover {
   text-decoration-color: var(--ink);
 }
 
-/* Real screenshots sit in a thin frame, nothing more. */
-.shot {
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--card);
-  box-shadow: var(--shadow);
-}
-
-.shot img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-/* Buttons. */
+/* ------------------------------------------------------------------
+   Controls
+   ------------------------------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
   line-height: 1;
-  padding: 0.85rem 1.2rem;
-  border-radius: 8px;
+  padding: 12px 18px;
+  border-radius: 6px;
+  white-space: nowrap;
   transition:
     transform 0.15s ease,
     background-color 0.15s ease,
     border-color 0.15s ease,
-    color 0.15s ease,
-    filter 0.15s ease;
+    color 0.15s ease;
 }
 
 .btn:active {
   transform: translateY(1px);
 }
 
+/* The plate: the logo's figure/ground. White on navy, navy on paper. */
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
 }
 
 .btn-primary:hover {
-  filter: brightness(1.07);
+  background: var(--accent-hover);
 }
 
 .btn-secondary {
@@ -190,17 +507,57 @@ h4 {
 }
 
 .btn-secondary:hover {
+  background: var(--accent-soft);
   border-color: var(--ink);
 }
 
-/* Inline text links. */
-.link {
-  font-family: var(--font-bricolage), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
+.btn-compact {
+  padding: 10px 14px;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+/* ES/EN chip and the theme toggle share one outline style. */
+.chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
+  height: 32px;
+  min-width: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--ink-2);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.chip:hover {
+  background: var(--accent-soft);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.chip-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--line-strong);
   text-underline-offset: 4px;
@@ -211,7 +568,167 @@ h4 {
   text-decoration-color: var(--ink);
 }
 
-/* One page-load sequence, hero only. Nothing animates on scroll. */
+.nav-link {
+  font-family: var(--font-geologica), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1;
+  color: var(--ink-2);
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--ink);
+}
+
+.nav-link[aria-current="true"] {
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+
+/* iPad portrait: the inline nav switches on at 768 with no air between
+   "Contacto" and the EN chip. Tighter link and plate padding frees ~20px and
+   keeps the word "WhatsApp" on the plate; 1024 restores the 10px padding. */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .nav-link {
+    padding-inline: 8px;
+  }
+
+  .btn-compact {
+    padding-inline: 12px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Records
+   ------------------------------------------------------------------ */
+/* Real screenshots and the founder photo sit in a square record frame. */
+.shot {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+:root[data-theme="dark"] .shot {
+  border-color: color-mix(in srgb, var(--line-strong) 60%, var(--ground));
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Status glyph: filled = live, ring = pending. Always beside its word. */
+.glyph {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  vertical-align: -1px;
+  flex: none;
+}
+
+.glyph-on {
+  background: currentColor;
+}
+
+.glyph-off {
+  border: 1.5px solid currentColor;
+}
+
+/* Testimonial slot: an empty form until a real quote fills it. */
+.slot {
+  border: 1px dashed var(--line);
+  border-radius: 6px;
+  padding: 16px;
+  min-height: 120px;
+}
+
+.slot-filled {
+  border-style: solid;
+  background: var(--surface);
+}
+
+/* Inside a 3-up slot the page-wide 9rem key column (sized for HERRAMIENTAS)
+   would push the em-dash to the slot's centre; seven-letter keys need 6.5rem.
+   The last row gives up its own bottom padding so the slot's 16px closes the
+   box as evenly as it opens it. */
+@media (min-width: 768px) {
+  .slot .ficha {
+    --ficha-key: 6.5rem;
+  }
+}
+
+.slot .ficha > div:last-child > dt,
+.slot .ficha > div:last-child > dd {
+  padding-bottom: 0;
+}
+
+/* Message preview panel (Contacto). */
+.preview {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+@media (min-width: 1024px) {
+  .preview {
+    padding: 24px;
+  }
+}
+
+/* Hairline-separated rows (built items, repo rows). */
+.rows > * {
+  padding-block: 12px;
+}
+
+.rows > * + * {
+  border-top: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------------
+   Footer keeps the logo's field in both themes: the page rule enters it
+   and becomes the logo's own white rule.
+   ------------------------------------------------------------------ */
+.footer {
+  --ground: #061630;
+  --surface: #0d2645;
+  --surface-2: #133151;
+  --ink: #eef3fa;
+  --ink-2: #a7b7cc;
+  --line: #22405f;
+  --line-strong: #7f95b3;
+  --accent: #f9fcff;
+  --accent-ink: #061630;
+  --accent-soft: #142a4b;
+  --accent-hover: #eaedf0;
+  --shadow: none;
+  background: var(--ground);
+  color: var(--ink);
+  border-top: 1px solid var(--line);
+}
+
+/* ------------------------------------------------------------------
+   Motion. One orchestrated moment on first paint, hero only:
+   the hero's spine draws, the text rises, the shot fades in.
+   Nothing animates on scroll. Theme and language changes are instant.
+   ------------------------------------------------------------------ */
+@keyframes draw {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -223,20 +740,40 @@ h4 {
   }
 }
 
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.spine-draw {
+  transform-origin: top;
+  animation: draw 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
 .rise {
-  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: 0.15s;
 }
 
 .rise-2 {
-  animation-delay: 0.1s;
+  animation-delay: 0.23s;
 }
 
 .rise-3 {
-  animation-delay: 0.2s;
+  animation-delay: 0.31s;
 }
 
 .rise-4 {
-  animation-delay: 0.3s;
+  animation-delay: 0.39s;
+}
+
+.hero-shot {
+  animation: fade 0.3s ease both;
+  animation-delay: 0.5s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -244,8 +781,12 @@ h4 {
     scroll-behavior: auto;
   }
 
-  .rise {
+  .spine-draw,
+  .rise,
+  .hero-shot {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 
   *,
@@ -253,5 +794,39 @@ h4 {
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+  }
+}
+
+/* Added during build */
+/* Footer links rest on ink-2 and reach ink on hover. .link is unlayered
+   (it beats Tailwind's layered utilities), so the colour is set here. */
+.footer .link {
+  color: var(--ink-2);
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.footer .link:hover {
+  color: var(--ink);
+}
+
+/* Touch targets (F05). Text plates reach 44px; on coarse pointers, links and
+   chips grow their hit area with padding that a negative margin cancels out,
+   so desktop rhythm and inline layout are unchanged. The 40px icon plate is
+   the spec's size and stays. */
+.btn:not(.btn-icon) {
+  min-height: 44px;
+}
+
+@media (pointer: coarse) {
+  .link,
+  .value a,
+  .ficha dd a {
+    padding-block: 10px;
+    margin-block: -10px;
+  }
+
+  .chip {
+    min-height: 44px;
+    min-width: 44px;
   }
 }
